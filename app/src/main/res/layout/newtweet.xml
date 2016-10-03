@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="80sp"
+        android:textSize="20sp"
+        android:text="@string/Tweet"
+        android:id="@+id/tweetButton"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="190sp"
+        android:layout_height="60sp"
+        android:text="@string/email"
+        android:id="@+id/emailButton"
+        android:layout_above="@+id/tweetButton"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="190sp"
+        android:layout_height="60sp"
+        android:text="@string/contacts"
+        android:id="@+id/contactButton"
+        android:layout_alignTop="@+id/emailButton" />
+
+    <EditText
+        android:layout_width="300sp"
+        android:layout_height="150sp"
+        android:hint="What's on your mind???"
+        android:gravity="bottom"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/tweet"
+        android:layout_above="@+id/emailButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="35sp"
+        android:text=""
+        android:id="@+id/chars"
+        android:layout_above="@+id/contactButton"
+        android:layout_alignStart="@+id/tweet" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/date"
+        android:textSize="20sp"
+        android:layout_marginTop="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/tweet" />
+
+</RelativeLayout>

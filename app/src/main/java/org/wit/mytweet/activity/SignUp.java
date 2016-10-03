@@ -60,7 +60,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         User newUser = new User(firstNameStr, lastNameStr, emailStr, passwordStr);
         app.newUser(newUser);
         Log.v("MyTweet", "New User: " + firstNameStr + " " + lastNameStr);
-        startActivity (new Intent(this, Welcome.class));
+        startActivity (new Intent(this, LogIn.class));
     }
 
     @Override

@@ -2,7 +2,7 @@
     <string name="app_name">MyTweet</string>
     <string name="title">MyTweet</string>
     <string name="signUp">Sign Up</string>
-    <string name="LogIn">Log In</string>
+    <string name="logIn">Log In</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="email">Email</string>

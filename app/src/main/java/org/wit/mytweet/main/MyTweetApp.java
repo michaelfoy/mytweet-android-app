@@ -35,4 +35,21 @@ public class MyTweetApp extends Application
     public void newUser(User user) {
         users.add(user);
     }
+
+  /**
+   * Checks login data against registered users
+   * @param email Input email
+   * @param password Input password
+   * @return True if the data matches a registered user
+   */
+  public boolean registeredUser(String email, String password)
+  {
+    for (User user : users) {
+      if(user.email.equals(email) && user.password.equals(password)) {
+        Log.v("DonationApp", "Logging in as: " + user.firstName + " " + user.lastName);
+        return true;
+      }
+    }
+    return false;
+  }
 }

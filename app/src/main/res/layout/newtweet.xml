@@ -33,6 +33,7 @@
         android:layout_width="300sp"
         android:layout_height="150sp"
         android:hint="What's on your mind???"
+        android:maxLength="140"
         android:gravity="bottom"
         android:inputType="textMultiLine"
         android:ems="10"

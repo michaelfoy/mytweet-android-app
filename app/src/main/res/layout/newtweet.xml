@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="80sp"
         android:textSize="20sp"
-        android:text="@string/Tweet"
+        android:text="@string/tweet"
         android:id="@+id/tweetButton"
         android:layout_alignParentBottom="true" />
 
@@ -32,7 +32,7 @@
     <EditText
         android:layout_width="300sp"
         android:layout_height="150sp"
-        android:hint="What's on your mind???"
+        android:hint="@string/tweetHint"
         android:maxLength="140"
         android:gravity="bottom"
         android:inputType="textMultiLine"

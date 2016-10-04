@@ -3,6 +3,7 @@ package org.wit.mytweet.main;
 import android.app.Application;
 import android.util.Log;
 
+import org.wit.mytweet.model.Tweet;
 import org.wit.mytweet.model.User;
 
 import java.util.ArrayList;
@@ -14,27 +15,34 @@ import java.util.List;
  * @version 2016.10.03
  * @author michaelfoy
  */
-public class MyTweetApp extends Application
-{
-    public List<User> users = new ArrayList<User>();
+public class MyTweetApp extends Application {
 
-    /**
-     * Activates the layout and instantiates it's widgets
-     */
-    @Override
-    public void onCreate()
-    {
-        super.onCreate();
-        Log.v("MyTweet", "MyTweet App Started");
-    }
+  private List<User> users = new ArrayList<User>();
+  private List<Tweet> tweets = new ArrayList<Tweet>();
+  private static User currentUser;
 
-    /**
-     * Saves a new user
-     * @param user The new user
-     */
-    public void newUser(User user) {
-        users.add(user);
-    }
+  /**
+   * Activates the layout and instantiates it's widgets
+   */
+  @Override
+  public void onCreate() {
+      super.onCreate();
+      Log.v("MyTweet", "MyTweet App Started");
+  }
+
+  /**
+   * Saves a new user
+   * @param user The new user
+   */
+  public void newUser(User user) {
+      users.add(user);
+  }
+
+  /**
+   * Saves a new Tweet
+   * @param tweet The new tweet
+   */
+  public void newTweet(Tweet tweet) { tweets.add(tweet); Log.v("MyTweet", "" + tweet.content ); }
 
   /**
    * Checks login data against registered users
@@ -47,9 +55,28 @@ public class MyTweetApp extends Application
     for (User user : users) {
       if(user.email.equals(email) && user.password.equals(password)) {
         Log.v("DonationApp", "Logging in as: " + user.firstName + " " + user.lastName);
+        currentUser = user;
         return true;
       }
     }
     return false;
+  }
+
+  /**
+   * Returns the currently logged in user
+   * @return The currently logged in user
+   */
+  public static User getCurrentUser() {
+    return currentUser;
+  }
+
+  public String getTweet() {
+
+    int counter = -1;
+    for (int i = 0; i <= tweets.size(); i++) {
+      counter++;
+    }
+    String str =  tweets.get(counter).getContent();
+    return str;
   }
 }

@@ -6,7 +6,6 @@ package org.wit.mytweet.model;
  * @author michaelfoy
  * @version 2016.10.03
  **/
-
 public class User {
 
     public String firstName;

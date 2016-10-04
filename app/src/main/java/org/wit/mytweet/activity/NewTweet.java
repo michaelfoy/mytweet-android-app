@@ -1,19 +1,20 @@
 package org.wit.mytweet.activity;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import org.wit.mytweet.model.Tweet;
 
-import org.wit.mytweet.R;
 import org.wit.mytweet.main.MyTweetApp;
+import org.wit.mytweet.R;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ import java.util.Date;
  * @version 2016.10.03
  * @author michaelfoy
  */
-public class NewTweet extends AppCompatActivity implements TextWatcher {
+public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnClickListener {
 
   private Button emailButton;
   private Button contactButton;
@@ -31,9 +32,8 @@ public class NewTweet extends AppCompatActivity implements TextWatcher {
   private EditText tweet;
   private TextView date;
   private TextView chars;
-  private Application app;
-  private Date currentDate;
-  private int counter = 140;
+  private MyTweetApp app;
+  private int counter;
   private int tweetLength;
 
   /**
@@ -53,12 +53,12 @@ public class NewTweet extends AppCompatActivity implements TextWatcher {
     chars = (TextView) findViewById(R.id.chars);
     date = (TextView) findViewById(R.id.date);
 
-    chars.setText("" + counter);
-    currentDate = new Date();
+    resetCounter();
     date.setText(editDate());
-    app = getApplication();
+    app = (MyTweetApp) getApplication();
 
     tweet.addTextChangedListener(this);
+    tweetButton.setOnClickListener(this);
 
     Log.v("MyTweet","New tweet page opened");
   }
@@ -67,7 +67,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher {
    * Formats the date input for output
    */
   public String editDate() {
-    SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy H:mm");
+    SimpleDateFormat formatter = new SimpleDateFormat("EEE. d MMM yyyy, H:mm");
     Date today = new Date();
     return formatter.format(today);
   }
@@ -85,12 +85,6 @@ public class NewTweet extends AppCompatActivity implements TextWatcher {
     tweetLength = charSequence.length();
   }
 
-
-  @Override
-  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-  }
-
   /**
    * Modifies the counter according to the number of allowable characters remaining
    *
@@ -98,10 +92,62 @@ public class NewTweet extends AppCompatActivity implements TextWatcher {
    */
   @Override
   public void afterTextChanged(Editable editable) {
-    if(editable.length() > tweetLength) {
+    if (editable.length() <= 0) {
+      resetCounter();
+      chars.setText("" + counter);
+    } else if(editable.length() > tweetLength) {
       chars.setText("" + (counter -= 1));
     } else if (editable.length() < tweetLength) {
       chars.setText("" + (counter += 1));
     }
+  }
+
+  /**
+   * Implements functionality for the 'tweet', 'contacts' and 'email' buttons
+   *
+   * @param view The button which has been clicked
+   */
+  @Override
+  public void onClick(View view) {
+    switch(view.getId()) {
+      case R.id.tweetButton:
+        if(tweet.getText().toString().length() > 0) {
+          postTweet();
+        } else {
+          Toast toast = Toast.makeText(this, "You forgot the tweet!", Toast.LENGTH_SHORT);
+          toast.show();
+        }
+        break;
+        
+    }
+  }
+
+  @Override
+  public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+  }
+
+  /**
+   * Method to reset the tweet text counter
+   */
+  private void resetCounter() {
+    counter = 140;
+    chars.setText("" + counter);
+  }
+
+  /**
+   * Method to post and save a tweet, resets tweet text area
+   */
+  private void postTweet() {
+    String content = tweet.getText().toString();
+    String dateStr = date.getText().toString();
+    Tweet newTweet = new Tweet(content, dateStr);
+    app.newTweet(newTweet);
+
+    Toast toast = Toast.makeText(this, "Tweet posted", Toast.LENGTH_SHORT);
+    toast.show();
+    Log.v("MyTweet", "Tweet posted");
+    tweet.setText("");
+
   }
 }

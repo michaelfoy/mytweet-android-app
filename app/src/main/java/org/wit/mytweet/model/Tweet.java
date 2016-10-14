@@ -39,6 +39,22 @@ public class Tweet {
     return content;
   }
 
+  /**
+   * Getter for the tweet's date
+   * @return Date of the tweet
+   */
+  public String getDate() {
+    return date;
+  }
+
+  /**
+   * Getter for the tweet's sender
+   * @return Id of sender of the tweet
+   */
+  /*public long getTweeter() {
+    return tweeter.getId();
+  }*/
+
   @NonNull
   private Long createId() {
     Random randomGenerator = new Random();

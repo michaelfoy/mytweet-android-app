@@ -35,7 +35,6 @@
         android:hint="@string/tweetHint"
         android:maxLength="140"
         android:gravity="bottom"
-        android:maxLines="1"
         android:ems="10"
         android:id="@+id/tweet"
         android:layout_above="@+id/emailButton"

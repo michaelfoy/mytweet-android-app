@@ -1,5 +1,6 @@
 package org.wit.mytweet.activity;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -56,6 +57,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     resetCounter();
     date.setText(editDate());
     app = (MyTweetApp) getApplication();
+    app.dbHelper.onUpgrade(app.dbHelper.getReadableDatabase(), 1, 1);
 
     tweet.addTextChangedListener(this);
     tweetButton.setOnClickListener(this);

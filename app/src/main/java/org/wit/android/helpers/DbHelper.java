@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.wit.mytweet.model.Tweet;
+import org.wit.mytweet.model.User;
 
 public class DbHelper extends SQLiteOpenHelper {
   static final String TAG = "DbHelper";
@@ -18,6 +19,9 @@ public class DbHelper extends SQLiteOpenHelper {
   static final String PRIMARY_KEY = "id";
   static final String CONTENT = "content";
   static final String DATE = "date";
+  static final String NAME = "name";
+  static final String EMAIL = "email";
+  static final String PASSWORD = "password";
 
   Context context;
 
@@ -35,9 +39,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     String createUserTable =
         "CREATE TABLE tableUsers " +
-            "(email text primary key, " +
+            "(id text primary key, " +
                 "firstName text, lastName text," +
-                    "password text)";
+                    "email text, password text)";
 
     db.execSQL(createTweetTable);
     db.execSQL(createUserTable);
@@ -55,6 +59,18 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(DATE, tweet.getDate());
     // Insert record
     db.insert(TABLE_TWEETS, null, values);
+    db.close();
+  }
+
+  public void addUser(User user) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(PRIMARY_KEY, user.id.toString());
+    values.put(NAME, user.getName());
+    values.put(EMAIL, user.getEmail());
+    values.put(PASSWORD, user.getPassword());
+    // Insert record
+    db.insert(TABLE_USERS, null, values);
     db.close();
   }
 

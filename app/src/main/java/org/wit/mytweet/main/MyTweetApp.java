@@ -3,6 +3,7 @@ package org.wit.mytweet.main;
 import android.app.Application;
 import android.util.Log;
 
+import org.wit.android.helpers.DbHelper;
 import org.wit.mytweet.model.Tweet;
 import org.wit.mytweet.model.User;
 
@@ -20,6 +21,7 @@ public class MyTweetApp extends Application {
   private List<User> users = new ArrayList<User>();
   private List<Tweet> tweets = new ArrayList<Tweet>();
   private static User currentUser;
+  public DbHelper dbHelper = null;
 
   /**
    * Activates the layout and instantiates it's widgets
@@ -27,6 +29,7 @@ public class MyTweetApp extends Application {
   @Override
   public void onCreate() {
       super.onCreate();
+      dbHelper = new DbHelper(getApplicationContext());
       Log.v("MyTweet", "MyTweet App Started");
   }
 
@@ -42,7 +45,7 @@ public class MyTweetApp extends Application {
    * Saves a new Tweet
    * @param tweet The new tweet
    */
-  public void newTweet(Tweet tweet) { tweets.add(tweet); Log.v("MyTweet", "" + tweet.content ); }
+  public void newTweet(Tweet tweet) { tweets.add(tweet); Log.v("MyTweet", "" + tweet.getContent() ); }
 
   /**
    * Checks login data against registered users

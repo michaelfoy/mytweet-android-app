@@ -56,8 +56,8 @@ public class MyTweetApp extends Application {
   public boolean registeredUser(String email, String password)
   {
     for (User user : users) {
-      if(user.email.equals(email) && user.password.equals(password)) {
-        Log.v("DonationApp", "Logging in as: " + user.firstName + " " + user.lastName);
+      if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
+        Log.v("DonationApp", "Logging in as: " + user.getName());
         currentUser = user;
         return true;
       }

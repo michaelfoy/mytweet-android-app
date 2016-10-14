@@ -52,7 +52,7 @@ public class Tweet {
    * Getter for the tweet's sender
    * @return Id of sender of the tweet
    */
-  /*public long getTweeter() {
+  public UUID getTweeter() {
     return tweeter.getId();
-  }*/
+  }
 }

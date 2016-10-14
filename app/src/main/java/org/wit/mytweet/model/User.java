@@ -35,6 +35,8 @@ public class User {
     this.password = password;
   }
 
+  public UUID getId() { return id; }
+
   public String getName() {
     return firstName + " " + lastName;
   }
@@ -43,7 +45,5 @@ public class User {
     return email;
   }
 
-  public String getPassword() {
-    return password;
-  }
+  public String getPassword() { return password; }
 }

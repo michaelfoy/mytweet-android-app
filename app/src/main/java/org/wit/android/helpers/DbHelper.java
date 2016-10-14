@@ -18,6 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   static final String PRIMARY_KEY = "id";
   static final String CONTENT = "content";
+  static final String TWEETER = "tweeter";
   static final String DATE = "date";
   static final String NAME = "name";
   static final String EMAIL = "email";
@@ -35,7 +36,8 @@ public class DbHelper extends SQLiteOpenHelper {
     String createTweetTable =
         "CREATE TABLE tableTweets " +
             "(id text primary key, " +
-                "content text, date text)";
+                "content text, date text, " +
+                    "tweeter text, FOREIGN KEY (tweeter) REFERENCES tableUsers(id))";
 
     String createUserTable =
         "CREATE TABLE tableUsers " +
@@ -57,6 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(PRIMARY_KEY, tweet.id.toString());
     values.put(CONTENT, tweet.getContent());
     values.put(DATE, tweet.getDate());
+    values.put(TWEETER, tweet.getTweeter().toString());
     // Insert record
     db.insert(TABLE_TWEETS, null, values);
     db.close();
@@ -78,6 +81,7 @@ public class DbHelper extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     db.execSQL("drop table if exists " + TABLE_TWEETS);
+    db.execSQL("drop table if exists " + TABLE_USERS);
     Log.d(TAG, "onUpdated");
     onCreate(db);
   }

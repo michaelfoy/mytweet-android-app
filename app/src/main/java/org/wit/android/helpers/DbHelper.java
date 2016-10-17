@@ -133,9 +133,6 @@ public class DbHelper extends SQLiteOpenHelper {
       } while (cursor.moveToNext());
     }
     cursor.close();
-    for (User user : users) {
-      Log.v("MyTweet", user.getFirstName() + " " + user.getLastName());
-    }
     return users;
   }
 
@@ -163,10 +160,10 @@ public class DbHelper extends SQLiteOpenHelper {
         tweets.add(tweet);
       } while (cursor.moveToNext());
     }
-    cursor.close();
-    for (Tweet tweet : tweets) {
-      Log.v("MyTweet", tweet.getContent());
+    for(Tweet tweet : tweets) {
+      Log.v("MyTweet", "DB: " + tweet.id);
     }
+    cursor.close();
     return tweets;
   }
 

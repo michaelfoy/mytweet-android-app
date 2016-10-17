@@ -38,6 +38,11 @@
             android:name=".activity.NewTweet"
             android:label="@string/app_name" >
         </activity>
+
+        <activity
+            android:name=".activity.TweetDisplay"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

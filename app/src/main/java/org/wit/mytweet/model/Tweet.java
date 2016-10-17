@@ -49,6 +49,7 @@ public class Tweet {
     return content;
   }
 
+  public UUID getId() { return this.id; }
   /**
    * Setter for the tweet's content text
    *
@@ -84,11 +85,22 @@ public class Tweet {
   }
 
   /**
+   * Getter for the name of the tweet's sender
+   * @return Id of sender of the tweet
+   */
+  public String getTweeterName() {
+
+    User user = MyTweetApp.getUserById(tweeter.id);
+    return user.getFirstName() + " " + user.getLastName();
+  }
+
+  /**
    * Sets User tweeter for the Tweet
    * @param tweeter The specified tweeter
    */
   public void setTweeter(String tweeter) {
-    id = UUID.fromString(tweeter);
-    this.tweeter =  MyTweetApp.getUserById(id);
+    UUID TweeterId;
+    TweeterId = UUID.fromString(tweeter);
+    this.tweeter =  MyTweetApp.getUserById(TweeterId);
   }
 }

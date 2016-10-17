@@ -114,8 +114,6 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
       case R.id.tweetButton:
         if(tweet.getText().toString().length() > 0) {
           postTweet();
-          app.dbHelper.selectAllTweets();
-          app.dbHelper.selectAllUsers();
         } else {
           Toast toast = Toast.makeText(this, "You forgot the tweet!", Toast.LENGTH_SHORT);
           toast.show();

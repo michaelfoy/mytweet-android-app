@@ -20,6 +20,7 @@ import java.util.UUID;
 public class MyTweetApp extends Application {
 
   private static List<User> users = new ArrayList<User>();
+  private static List<Tweet> tweets = new ArrayList<Tweet>();
   private static User currentUser;
   public static DbHelper dbHelper = null;
 
@@ -87,11 +88,30 @@ public class MyTweetApp extends Application {
   }
 
   /**
+   * If found, returns a User with the corresponding UUID
+   *
+   * @param id UUID to be searched in db
+   * @return The corresponding User object
+   */
+  public static Tweet getTweetById(UUID id) {
+    tweets = dbHelper.selectAllTweets();
+    for (Tweet tweet : tweets) {
+      if(tweet.id.equals(id)) {
+        Log.v("MyTweet", "Retrieving tweet: " + tweet.getContent());
+        return tweet;
+      }
+    }
+    Log.v("MyTweet", "No tweet found for id: " + id);
+    return null;
+  }
+
+
+  /**
    * Returns a list of all Tweets in the db
    *
    * @return List of all persisted tweet
    */
-  public List<Tweet> getTweets() {
+  public static List<Tweet> getTweets() {
     return dbHelper.selectAllTweets();
   }
 }

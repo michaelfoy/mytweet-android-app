@@ -8,7 +8,7 @@
         android:layout_width="300sp"
         android:layout_height="150sp"
         android:maxLength="140"
-        android:gravity="bottom"
+        android:gravity="right"
         android:ems="10"
         android:id="@+id/tweet"
         android:layout_marginBottom="133dp"
@@ -22,16 +22,16 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/date"
         android:textSize="20sp"
+        android:layout_marginBottom="44dp"
         android:layout_above="@+id/tweeter"
-        android:layout_toEndOf="@+id/tweet"
-        android:layout_marginBottom="46dp"/>
+        android:layout_alignEnd="@+id/tweeter"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tweeter"
+        android:layout_marginBottom="49dp"
         android:layout_above="@+id/tweet"
-        android:layout_toStartOf="@+id/date"
-        android:layout_marginBottom="48dp"/>
+        android:layout_alignEnd="@+id/tweet"/>
 
 </RelativeLayout>

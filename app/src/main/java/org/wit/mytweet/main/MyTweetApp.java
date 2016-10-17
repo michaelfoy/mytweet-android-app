@@ -85,4 +85,13 @@ public class MyTweetApp extends Application {
     Log.v("MyTweet", "No user found for id: " + id);
     return null;
   }
+
+  /**
+   * Returns a list of all Tweets in the db
+   *
+   * @return List of all persisted tweet
+   */
+  public List<Tweet> getTweets() {
+    return dbHelper.selectAllTweets();
+  }
 }

@@ -10,10 +10,16 @@
         android:name=".main.MyTweetApp"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.Welcome">
+        <activity
+            android:name=".activity.Welcome"
+            android:label="@string/app_name" >
+        </activity>
+
+        <activity
+            android:name=".activity.TweetList"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -14,11 +14,13 @@ import java.util.UUID;
 public class User {
 
   public UUID id;
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
+  public String firstName;
+  public String lastName;
+  public String email;
+  public String password;
 
+  public User() {
+  }
   /**
    * Creates a new User
    *
@@ -37,13 +39,27 @@ public class User {
 
   public UUID getId() { return id; }
 
-  public String getName() {
-    return firstName + " " + lastName;
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setName(String firstName, String lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 
   public String getEmail() {
     return email;
   }
 
+  public void setEmail(String email) { this.email = email; }
+
   public String getPassword() { return password; }
+
+  public void setPassword( String password) { this.password = password; }
+
 }

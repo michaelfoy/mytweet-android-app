@@ -19,7 +19,6 @@ import java.util.List;
 public class MyTweetApp extends Application {
 
   private List<User> users = new ArrayList<User>();
-  private List<Tweet> tweets = new ArrayList<Tweet>();
   private static User currentUser;
   public DbHelper dbHelper = null;
 
@@ -38,14 +37,8 @@ public class MyTweetApp extends Application {
    * @param user The new user
    */
   public void newUser(User user) {
-      users.add(user);
+      dbHelper.addUser(user);
   }
-
-  /**
-   * Saves a new Tweet
-   * @param tweet The new tweet
-   */
-  public void newTweet(Tweet tweet) { tweets.add(tweet); Log.v("MyTweet", "" + tweet.getContent() ); }
 
   /**
    * Checks login data against registered users
@@ -55,9 +48,10 @@ public class MyTweetApp extends Application {
    */
   public boolean registeredUser(String email, String password)
   {
+    users = dbHelper.selectAllUsers();
     for (User user : users) {
       if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
-        Log.v("DonationApp", "Logging in as: " + user.getName());
+        Log.v("DonationApp", "Logging in as: " + user.getFirstName() + " " + user.getLastName());
         currentUser = user;
         return true;
       }
@@ -71,15 +65,5 @@ public class MyTweetApp extends Application {
    */
   public static User getCurrentUser() {
     return currentUser;
-  }
-
-  public String getTweet() {
-
-    int counter = -1;
-    for (int i = 0; i <= tweets.size(); i++) {
-      counter++;
-    }
-    String str =  tweets.get(counter).getContent();
-    return str;
   }
 }

@@ -2,12 +2,17 @@ package org.wit.android.helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import org.wit.mytweet.model.Tweet;
 import org.wit.mytweet.model.User;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class DbHelper extends SQLiteOpenHelper {
   static final String TAG = "DbHelper";
@@ -20,7 +25,8 @@ public class DbHelper extends SQLiteOpenHelper {
   static final String CONTENT = "content";
   static final String TWEETER = "tweeter";
   static final String DATE = "date";
-  static final String NAME = "name";
+  static final String FIRSTNAME = "firstName";
+  static final String LASTNAME = "lastName";
   static final String EMAIL = "email";
   static final String PASSWORD = "password";
 
@@ -69,7 +75,8 @@ public class DbHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
     values.put(PRIMARY_KEY, user.id.toString());
-    values.put(NAME, user.getName());
+    values.put(FIRSTNAME, user.getFirstName());
+    values.put(LASTNAME, user.getLastName());
     values.put(EMAIL, user.getEmail());
     values.put(PASSWORD, user.getPassword());
     // Insert record
@@ -77,6 +84,37 @@ public class DbHelper extends SQLiteOpenHelper {
     db.close();
   }
 
+  /**
+   * Query database and select entire tableResidences.
+   *
+   * @return A list of Residence object records
+   */
+  public List<User> selectAllUsers() {
+    List<User> users = new ArrayList<User>();
+    String query = "SELECT * FROM " + "tableUsers";
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.rawQuery(query, null);
+    if (cursor.moveToFirst()) {
+      int columnIndex = 0;
+      do {
+        User user = new User();
+        user.id = UUID.fromString(cursor.getString(columnIndex++));
+        user.firstName = cursor.getString(columnIndex++);
+        user.lastName = cursor.getString(columnIndex++);
+        user.email = cursor.getString(columnIndex++);
+        user.password = cursor.getString(columnIndex++);
+
+        columnIndex = 0;
+
+        users.add(user);
+      } while (cursor.moveToNext());
+    }
+    cursor.close();
+    for (User user : users) {
+      Log.v("MyTweet", "DBUSERS: " + user.firstName + " " + user.lastName + " " + user.email + " " + user.password);
+    }
+     return users;
+  }
 
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

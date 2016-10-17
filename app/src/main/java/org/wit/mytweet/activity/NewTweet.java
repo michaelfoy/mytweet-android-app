@@ -144,13 +144,11 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     String content = tweet.getText().toString();
     String dateStr = date.getText().toString();
     Tweet newTweet = new Tweet(content, dateStr);
-
     app.dbHelper.addTweet(newTweet);
-    Log.v("MyTweet", "CurrentUser Id: " + app.getCurrentUser().getId());
 
     Toast toast = Toast.makeText(this, "Tweet posted", Toast.LENGTH_SHORT);
     toast.show();
-    Log.v("MyTweet", "Tweet posted");
+    Log.v("MyTweet", "Tweet posted by " + app.getCurrentUser().getFirstName() + " " + app.getCurrentUser().getLastName());
     tweet.setText("");
 
   }

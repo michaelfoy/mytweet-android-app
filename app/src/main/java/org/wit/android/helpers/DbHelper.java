@@ -14,6 +14,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
+/**
+ * @file DbHelper.java
+ * @brief Class to provide helper methods to create, access and update a mysqlite db
+ * @author michaelfoy
+ * @version 2016.10.17
+ */
 public class DbHelper extends SQLiteOpenHelper {
   static final String TAG = "DbHelper";
   static final String DATABASE_NAME = "myTweet.db";
@@ -32,11 +38,21 @@ public class DbHelper extends SQLiteOpenHelper {
 
   Context context;
 
+  /**
+   * Creates a new bdHelper object
+   *
+   * @param context The application context
+   */
   public DbHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     this.context = context;
   }
 
+  /**
+   * Creates an instance of the database
+   *
+   * @param db Baseline database to be populated
+   */
   @Override
   public void onCreate(SQLiteDatabase db) {
     String createTweetTable =
@@ -57,6 +73,8 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   /**
+   * Adds a tweet to the database
+   *
    * @param tweet Reference to Tweet object to be added to database
    */
   public void addTweet(Tweet tweet) {
@@ -71,6 +89,11 @@ public class DbHelper extends SQLiteOpenHelper {
     db.close();
   }
 
+  /**
+   * Adds a user to the database
+   *
+   * @param user Reference to the User object to be added
+   */
   public void addUser(User user) {
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
@@ -85,9 +108,9 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   /**
-   * Query database and select entire tableResidences.
+   * Query database and select entire tableUsers.
    *
-   * @return A list of Residence object records
+   * @return A list of User object records
    */
   public List<User> selectAllUsers() {
     List<User> users = new ArrayList<User>();
@@ -99,10 +122,10 @@ public class DbHelper extends SQLiteOpenHelper {
       do {
         User user = new User();
         user.id = UUID.fromString(cursor.getString(columnIndex++));
-        user.firstName = cursor.getString(columnIndex++);
-        user.lastName = cursor.getString(columnIndex++);
-        user.email = cursor.getString(columnIndex++);
-        user.password = cursor.getString(columnIndex++);
+        user.setFirstName(cursor.getString(columnIndex++));
+        user.setLastName(cursor.getString(columnIndex++));
+        user.setEmail(cursor.getString(columnIndex++));
+        user.setPassword(cursor.getString(columnIndex++));
 
         columnIndex = 0;
 
@@ -111,11 +134,49 @@ public class DbHelper extends SQLiteOpenHelper {
     }
     cursor.close();
     for (User user : users) {
-      Log.v("MyTweet", "DBUSERS: " + user.firstName + " " + user.lastName + " " + user.email + " " + user.password);
+      Log.v("MyTweet", user.getFirstName() + " " + user.getLastName());
     }
-     return users;
+    return users;
   }
 
+  /**
+   * Query database and select entire tableTweets.
+   *
+   * @return A list of Tweet object records
+   */
+  public List<Tweet> selectAllTweets() {
+    List<Tweet> tweets = new ArrayList<Tweet>();
+    String query = "SELECT * FROM " + "tableTweets";
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.rawQuery(query, null);
+    if (cursor.moveToFirst()) {
+      int columnIndex = 0;
+      do {
+        Tweet tweet = new Tweet();
+        tweet.id = UUID.fromString(cursor.getString(columnIndex++));
+        tweet.setContent(cursor.getString(columnIndex++));
+        tweet.setDate(cursor.getString(columnIndex++));
+        tweet.setTweeter(cursor.getString(columnIndex++));
+
+        columnIndex = 0;
+
+        tweets.add(tweet);
+      } while (cursor.moveToNext());
+    }
+    cursor.close();
+    for (Tweet tweet : tweets) {
+      Log.v("MyTweet", tweet.getContent());
+    }
+    return tweets;
+  }
+
+  /**
+   * Upgrades previous version of the data base with new version
+   *
+   * @param db The database to be updated
+   * @param oldVersion Version number of old database
+   * @param newVersion Version number of new database
+   */
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     db.execSQL("drop table if exists " + TABLE_TWEETS);

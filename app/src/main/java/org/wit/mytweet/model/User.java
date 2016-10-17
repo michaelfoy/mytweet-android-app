@@ -14,10 +14,10 @@ import java.util.UUID;
 public class User {
 
   public UUID id;
-  public String firstName;
-  public String lastName;
-  public String email;
-  public String password;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
 
   public User() {
   }
@@ -37,29 +37,60 @@ public class User {
     this.password = password;
   }
 
-  public UUID getId() { return id; }
+  /**
+   * Getter for user's first name
+   *
+   * @return User's first name
+   */
+  public String getFirstName() { return firstName; }
 
-  public String getFirstName() {
-    return firstName;
-  }
+  /**
+   * Setter for user's first name
+   *
+   * @param firstName user's first name
+   */
+  public void setFirstName(String firstName) { this.firstName = firstName; }
 
-  public String getLastName() {
-    return lastName;
-  }
+  /**
+   * Getter for user's last name
+   *
+   * @return User's last name
+   */
+  public String getLastName() { return lastName; }
 
-  public void setName(String firstName, String lastName) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
+  /**
+   * Setter for user's last name
+   *
+   * @param lastName user's last name
+   */
+  public void setLastName(String lastName) { this.lastName = lastName; }
 
-  public String getEmail() {
-    return email;
-  }
+  /**
+   * Getter for user's email
+   *
+   * @return User's email
+   */
+  public String getEmail() { return email; }
 
+  /**
+   * Setter for user's email
+   *
+   * @param email User's email
+   */
   public void setEmail(String email) { this.email = email; }
 
+  /**
+   * Getter for user's password
+   *
+   * @return User's password
+   */
   public String getPassword() { return password; }
 
+  /**
+   * Setter for user's password
+   *
+   * @param password User's password
+   */
   public void setPassword( String password) { this.password = password; }
 
 }

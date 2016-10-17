@@ -21,7 +21,15 @@ public class Tweet {
   public UUID id;
 
   /**
+   * Constructor of empty Tweet. Used to retrieve data from db
+   */
+  public Tweet() {
+
+  }
+
+  /**
    * Constructor for a new tweet
+   *
    * @param content Content text of the tweet
    * @param date Date the tweet was posted
    */
@@ -34,10 +42,20 @@ public class Tweet {
 
   /**
    * Getter for the tweet's content text
+   *
    * @return Content of the tweet
    */
   public String getContent() {
     return content;
+  }
+
+  /**
+   * Setter for the tweet's content text
+   *
+   * @param content Content of the tweet
+   */
+  public void setContent(String content) {
+    this.content =  content;
   }
 
   /**
@@ -49,10 +67,28 @@ public class Tweet {
   }
 
   /**
+   * Setter for the tweet's date
+   *
+   * @param date Date of the tweet
+   */
+  public void setDate(String date) {
+    this.date =  date;
+  }
+
+  /**
    * Getter for the tweet's sender
    * @return Id of sender of the tweet
    */
   public UUID getTweeter() {
-    return tweeter.getId();
+    return tweeter.id;
+  }
+
+  /**
+   * Sets User tweeter for the Tweet
+   * @param tweeter The specified tweeter
+   */
+  public void setTweeter(String tweeter) {
+    id = UUID.fromString(tweeter);
+    this.tweeter =  MyTweetApp.getUserById(id);
   }
 }

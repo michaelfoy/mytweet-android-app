@@ -9,6 +9,7 @@ import org.wit.mytweet.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @file MyTweetApp.java
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class MyTweetApp extends Application {
 
-  private List<User> users = new ArrayList<User>();
+  private static List<User> users = new ArrayList<User>();
   private static User currentUser;
-  public DbHelper dbHelper = null;
+  public static DbHelper dbHelper = null;
 
   /**
    * Activates the layout and instantiates it's widgets
@@ -51,7 +52,7 @@ public class MyTweetApp extends Application {
     users = dbHelper.selectAllUsers();
     for (User user : users) {
       if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
-        Log.v("DonationApp", "Logging in as: " + user.getFirstName() + " " + user.getLastName());
+        Log.v("MyTweet", "Logging in as: " + user.getFirstName() + " " + user.getLastName());
         currentUser = user;
         return true;
       }
@@ -65,5 +66,23 @@ public class MyTweetApp extends Application {
    */
   public static User getCurrentUser() {
     return currentUser;
+  }
+
+  /**
+   * If found, returns a User with the corresponding UUID
+   *
+   * @param id UUID to be searched in db
+   * @return The corresponding User object
+   */
+  public static User getUserById(UUID id) {
+    users = dbHelper.selectAllUsers();
+    for (User user : users) {
+      if(user.id.equals(id)) {
+        Log.v("MyTweet", "Retrieving: " + user.getFirstName() + " " + user.getLastName());
+        return user;
+      }
+    }
+    Log.v("MyTweet", "No user found for id: " + id);
+    return null;
   }
 }

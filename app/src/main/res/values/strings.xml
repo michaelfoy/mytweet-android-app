@@ -11,4 +11,6 @@
     <string name="contacts">Contacts</string>
     <string name="tweet">Tweet</string>
     <string name="tweetHint">What\'s on your mind?</string>
+    <string name="newTweet">New Tweet</string>
+    <string name="settings">Settings</string>
 </resources>

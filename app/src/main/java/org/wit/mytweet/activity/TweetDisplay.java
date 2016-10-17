@@ -3,6 +3,8 @@ package org.wit.mytweet.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -51,6 +53,14 @@ public class TweetDisplay extends AppCompatActivity {
     date.setText(tweet.getDate());
 
     Log.v("MyTweet","Display tweet page opened");
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu)
+  {
+    MenuInflater menuInflater = getMenuInflater();
+    menuInflater.inflate(R.menu.mytweet_menu, menu);
+    return true;
   }
 
 }

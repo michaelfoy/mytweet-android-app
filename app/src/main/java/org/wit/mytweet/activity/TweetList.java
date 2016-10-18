@@ -1,11 +1,16 @@
 package org.wit.mytweet.activity;
 
+import static org.wit.android.helpers.IntentHelper.startActivityWithData;
+import static org.wit.android.helpers.IntentHelper.startActivityWithDataForResult;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,33 +23,87 @@ import org.wit.mytweet.model.Tweet;
 
 import java.util.List;
 
-import static org.wit.android.helpers.IntentHelper.startActivityWithData;
-
+/**
+ * @file TweetList.java
+ * @brief Controller for TweetList activity
+ * @author michaelfoy
+ * @version 2016.10.18
+ */
 public class TweetList extends AppCompatActivity implements AdapterView.OnItemClickListener {
   private ListView listView;
   private List<Tweet> tweetList;
   private TweetAdapter adapter;
+  public MyTweetApp app;
 
+  /**
+   * Implements the layout, instantiates all fields
+   *
+   * @param savedInstanceState Data from previously saved instance
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTitle(R.string.app_name);
     setContentView(R.layout.tweet_list);
 
-    listView = (ListView) findViewById(R.id.tweetList);
-    listView.setOnItemClickListener(this);
-
-    MyTweetApp app = (MyTweetApp) getApplication();
+    app = (MyTweetApp) getApplication();
     tweetList = app.getTweets();
+
+    listView = (ListView) findViewById(R.id.tweetList);
     adapter = new TweetAdapter(this, tweetList);
     listView.setAdapter(adapter);
+    listView.setOnItemClickListener(this);
   }
 
+  /**
+   * Listener for click on Tweet item in list
+   *
+   * @param parent The parent adapter view
+   * @param view The view that was clicked within the adapterView
+   * @param position Position of the view in the adapter
+   * @param id Row id of clicked item
+   */
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id)
   {
     Tweet tweet = adapter.getItem(position);
     startActivityWithData(this, TweetDisplay.class, "TWEET_ID", tweet.id);
+  }
+
+  /**
+   * Returns true if menu can be displayed
+   *
+   * @param menu Menu object to be displayed
+   * @return True if menu can be displayed
+   */
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu)
+  {
+    MenuInflater menuInflater = getMenuInflater();
+    menuInflater.inflate(R.menu.mytweet_menu, menu);
+    return true;
+  }
+
+  /**
+   * Returns true if selected menu item is implemented
+   *
+   * @param item The selected menu item
+   * @return True if item implemented
+   */
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    switch (item.getItemId())
+    {
+      case R.id.menuItemNewTweet: Tweet tweet = new Tweet();
+        tweet.setId();
+        tweet.setTweeter(app.getCurrentUser().id.toString());
+        MyTweetApp.setTempTweet(tweet);
+        startActivityWithDataForResult(this, NewTweet.class, "TWEET_ID", tweet.id, 0);
+        return true;
+
+      default: return super.onOptionsItemSelected(item);
+    }
   }
 }
 

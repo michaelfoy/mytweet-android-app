@@ -24,6 +24,9 @@ public class MyTweetApp extends Application {
   private static User currentUser;
   public static DbHelper dbHelper = null;
 
+  // Temporary tweet object, used when creating a new tweet
+  private static Tweet tempTweet;
+
   /**
    * Activates the layout and instantiates it's widgets
    */
@@ -88,10 +91,10 @@ public class MyTweetApp extends Application {
   }
 
   /**
-   * If found, returns a User with the corresponding UUID
+   * If found, returns a Tweet with the corresponding UUID
    *
    * @param id UUID to be searched in db
-   * @return The corresponding User object
+   * @return The corresponding Tweet object
    */
   public static Tweet getTweetById(UUID id) {
     tweets = dbHelper.selectAllTweets();
@@ -105,7 +108,6 @@ public class MyTweetApp extends Application {
     return null;
   }
 
-
   /**
    * Returns a list of all Tweets in the db
    *
@@ -114,4 +116,20 @@ public class MyTweetApp extends Application {
   public static List<Tweet> getTweets() {
     return dbHelper.selectAllTweets();
   }
+
+  /**
+   * Sets the temporary tweet object before commiting to db
+   */
+  public static void setTempTweet(Tweet tweet) {
+    tempTweet = tweet;
+  }
+
+  /**
+   * Gets the temporary tweet object before commiting to db
+   */
+  public static Tweet getTempTweet() {
+    return tempTweet;
+  }
+
+  public static void deleteTempTweet() { tempTweet = null; }
 }

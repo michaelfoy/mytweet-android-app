@@ -1,5 +1,6 @@
 package org.wit.mytweet.activity;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import org.wit.mytweet.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @file NewTweet.java
@@ -30,7 +32,8 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
   private Button emailButton;
   private Button contactButton;
   private Button tweetButton;
-  private EditText tweet;
+  private EditText tweetText;
+  private Tweet tweet;
   private TextView date;
   private TextView chars;
   private MyTweetApp app;
@@ -50,7 +53,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     emailButton = (Button) findViewById(R.id.emailButton);
     contactButton = (Button) findViewById(R.id.contactButton);
     tweetButton = (Button) findViewById(R.id.tweetButton);
-    tweet = (EditText) findViewById(R.id.tweet);
+    tweetText = (EditText) findViewById(R.id.tweet);
     chars = (TextView) findViewById(R.id.chars);
     date = (TextView) findViewById(R.id.date);
 
@@ -58,7 +61,11 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     date.setText(editDate());
     app = (MyTweetApp) getApplication();
 
-    tweet.addTextChangedListener(this);
+    UUID tweetId = (UUID) getIntent().getExtras().getSerializable("TWEET_ID");
+    tweet = app.getTempTweet();
+    Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
+
+    tweetText.addTextChangedListener(this);
     tweetButton.setOnClickListener(this);
 
     Log.v("MyTweet","New tweet page opened");
@@ -112,7 +119,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
   public void onClick(View view) {
     switch(view.getId()) {
       case R.id.tweetButton:
-        if(tweet.getText().toString().length() > 0) {
+        if(tweetText.getText().toString().length() > 0) {
           postTweet();
         } else {
           Toast toast = Toast.makeText(this, "You forgot the tweet!", Toast.LENGTH_SHORT);
@@ -140,15 +147,16 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
    * Method to post and save a tweet, resets tweet text area
    */
   private void postTweet() {
-    String content = tweet.getText().toString();
+    String content = tweetText.getText().toString();
     String dateStr = date.getText().toString();
-    Tweet newTweet = new Tweet(content, dateStr);
-    app.dbHelper.addTweet(newTweet);
+    tweet.setContent(content);
+    tweet.setDate(dateStr);
+    app.dbHelper.addTweet(tweet);
+    app.deleteTempTweet();
 
     Toast toast = Toast.makeText(this, "Tweet posted", Toast.LENGTH_SHORT);
     toast.show();
     Log.v("MyTweet", "Tweet posted by " + app.getCurrentUser().getFirstName() + " " + app.getCurrentUser().getLastName());
-    tweet.setText("");
-
+    startActivity(new Intent(this, TweetList.class));
   }
 }

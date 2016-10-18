@@ -51,7 +51,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
     String passwordStr = password.getText().toString();
 
     if (app.registeredUser(emailStr, passwordStr)) {
-      startActivity(new Intent(this, NewTweet.class));
+      startActivity(new Intent(this, TweetList.class));
       Log.v("MyTweet", "Log in successful");
     } else {
       Toast toast = Toast.makeText(this, "Log in unsuccessful", Toast.LENGTH_SHORT);

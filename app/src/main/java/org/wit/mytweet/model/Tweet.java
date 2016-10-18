@@ -24,6 +24,8 @@ public class Tweet {
    * Constructor of empty Tweet. Used to retrieve data from db
    */
   public Tweet() {
+    this.content = "";
+    this.date = "";
 
   }
 
@@ -49,7 +51,7 @@ public class Tweet {
     return content;
   }
 
-  public UUID getId() { return this.id; }
+  public void setId() { this.id = UUID.randomUUID(); }
   /**
    * Setter for the tweet's content text
    *

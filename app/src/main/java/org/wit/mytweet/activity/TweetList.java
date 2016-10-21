@@ -4,7 +4,9 @@ import static org.wit.android.helpers.IntentHelper.startActivityWithData;
 import static org.wit.android.helpers.IntentHelper.startActivityWithDataForResult;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +58,8 @@ public class TweetList extends AppCompatActivity implements AdapterView.OnItemCl
   }
 
   /**
-   * Listener for click on Tweet item in list
+   * Listener for click on Tweet item in list. If selected tweet was posted
+   * by the logged-in-user, option to email tweet supplied. Otherwise, tweet is read-only.
    *
    * @param parent The parent adapter view
    * @param view The view that was clicked within the adapterView
@@ -67,7 +70,12 @@ public class TweetList extends AppCompatActivity implements AdapterView.OnItemCl
   public void onItemClick(AdapterView<?> parent, View view, int position, long id)
   {
     Tweet tweet = adapter.getItem(position);
-    startActivityWithData(this, TweetDisplay.class, "TWEET_ID", tweet.id);
+    if (app.getCurrentUser().id.equals(tweet.getTweeter())) {
+      app.setTempTweet(tweet);
+      startActivity(new Intent(this, NewTweet.class));
+    } else {
+      startActivityWithData(this, TweetDisplay.class, "TWEET_ID", tweet.id);
+    }
   }
 
   /**
@@ -99,7 +107,7 @@ public class TweetList extends AppCompatActivity implements AdapterView.OnItemCl
         tweet.setId();
         tweet.setTweeter(app.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
-        startActivityWithDataForResult(this, NewTweet.class, "TWEET_ID", tweet.id, 0);
+        startActivity(new Intent(this, NewTweet.class));
         return true;
 
       default: return super.onOptionsItemSelected(item);

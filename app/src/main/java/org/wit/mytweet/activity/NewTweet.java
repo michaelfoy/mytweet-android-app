@@ -19,6 +19,7 @@ import org.wit.mytweet.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -56,19 +57,32 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     tweetText = (EditText) findViewById(R.id.tweet);
     chars = (TextView) findViewById(R.id.chars);
     date = (TextView) findViewById(R.id.date);
+    app = (MyTweetApp) getApplication();
+
+    tweet = app.getTempTweet();
+    Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
 
     resetCounter();
     date.setText(editDate());
-    app = (MyTweetApp) getApplication();
-
-    UUID tweetId = (UUID) getIntent().getExtras().getSerializable("TWEET_ID");
-    tweet = app.getTempTweet();
-    Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
 
     tweetText.addTextChangedListener(this);
     tweetButton.setOnClickListener(this);
 
+    checkForTweet(tweet);
     Log.v("MyTweet","New tweet page opened");
+  }
+
+  private void checkForTweet(Tweet checkTweet) {
+    List<Tweet> allTweets = app.dbHelper.selectAllTweets();
+    for (Tweet tweet : allTweets) {
+      if (checkTweet.getContent().equals(tweet.getContent())) {
+        date.setText(tweet.getDate());
+        tweetText.setText(tweet.getContent());
+        chars.setText("");
+        tweetText.setEnabled(false);
+        tweetButton.setEnabled(false);
+      }
+    }
   }
 
   /**

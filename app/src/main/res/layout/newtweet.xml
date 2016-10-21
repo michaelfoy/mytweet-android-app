@@ -31,15 +31,15 @@
 
     <EditText
         android:layout_width="300sp"
-        android:layout_height="150sp"
+        android:layout_height="80sp"
         android:hint="@string/tweetHint"
         android:maxLength="140"
         android:gravity="bottom"
-        android:ems="10"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tweet"
-        android:layout_above="@+id/emailButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="75dp" />
+        android:layout_marginBottom="104dp"
+        android:layout_above="@+id/chars"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,8 +57,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/date"
         android:textSize="20sp"
-        android:layout_marginTop="45dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/tweet" />
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/tweet"
+        android:layout_alignStart="@+id/tweet"/>
 
 </RelativeLayout>

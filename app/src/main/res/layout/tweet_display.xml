@@ -9,7 +9,7 @@
         android:layout_height="150sp"
         android:maxLength="140"
         android:gravity="right"
-        android:ems="10"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/tweet"
         android:layout_marginBottom="133dp"
         android:layout_alignParentBottom="true"

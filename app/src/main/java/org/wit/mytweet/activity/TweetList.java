@@ -131,11 +131,14 @@ class TweetAdapter extends ArrayAdapter<Tweet> {
     }
     Tweet tweet = getItem(position);
 
-    TextView geolocation = (TextView) convertView.findViewById(R.id.tweetListItemContent);
-    geolocation.setText(tweet.getContent());
+    TextView tweetContent = (TextView) convertView.findViewById(R.id.tweetListItemContent);
+    tweetContent.setText(tweet.getContent());
 
     TextView dateTextView = (TextView) convertView.findViewById(R.id.tweetListItemDate);
     dateTextView.setText(tweet.getDate());
+
+    TextView tweeter = (TextView) convertView.findViewById(R.id.tweetListItemTweeter);
+    tweeter.setText(tweet.getTweeterName());
 
     return convertView;
   }

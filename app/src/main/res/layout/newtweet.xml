@@ -31,7 +31,7 @@
 
     <EditText
         android:layout_width="300sp"
-        android:layout_height="80sp"
+        android:layout_height="wrap_content"
         android:hint="@string/tweetHint"
         android:maxLength="140"
         android:gravity="bottom"

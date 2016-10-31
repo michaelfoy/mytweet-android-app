@@ -59,7 +59,9 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     date = (TextView) findViewById(R.id.date);
     app = (MyTweetApp) getApplication();
 
+    // Retrieves the currently loaded tweet
     tweet = app.getTempTweet();
+
     Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
 
     resetCounter();
@@ -68,10 +70,17 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     tweetText.addTextChangedListener(this);
     tweetButton.setOnClickListener(this);
 
+    // Checks if the tweet has already been persisted
     checkForTweet(tweet);
-    Log.v("MyTweet","New tweet page opened");
   }
 
+  /**
+   * Checks if the tweet has been persisted,
+   * if so, this is a logged-in user viewing his/her own tweet.
+   * TweetText  tweetButton disabled, tweeter can only email tweet
+   *
+   * @param checkTweet The currently displayed tweet
+     */
   private void checkForTweet(Tweet checkTweet) {
     List<Tweet> allTweets = app.dbHelper.selectAllTweets();
     for (Tweet tweet : allTweets) {
@@ -79,6 +88,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
         date.setText(tweet.getDate());
         tweetText.setText(tweet.getContent());
         chars.setText("");
+        tweetText.setSingleLine(false);
         tweetText.setEnabled(false);
         tweetButton.setEnabled(false);
       }

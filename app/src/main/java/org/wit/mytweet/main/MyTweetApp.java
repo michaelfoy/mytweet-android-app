@@ -38,11 +38,23 @@ public class MyTweetApp extends Application {
   }
 
   /**
-   * Saves a new user
+   * Saves a new user if their email does not exist in db
+   *
    * @param user The new user
+   * @return True if user email not already persisted
    */
-  public void newUser(User user) {
-      dbHelper.addUser(user);
+  public boolean newUser(User user) {
+
+    users = dbHelper.selectAllUsers();
+    String checkEmail = user.getEmail();
+    for (int i = 0; i < users.size(); i++){
+      String regEmail = users.get(i).getEmail();
+      if (checkEmail.equals(regEmail)) {
+        return false;
+      }
+    }
+    dbHelper.addUser(user);
+    return true;
   }
 
   /**

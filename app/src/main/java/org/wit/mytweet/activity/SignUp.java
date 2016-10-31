@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.wit.mytweet.main.MyTweetApp;
 import org.wit.mytweet.R;
@@ -58,9 +59,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         String passwordStr = password.getText().toString();
 
         User newUser = new User(firstNameStr, lastNameStr, emailStr, passwordStr);
-        app.newUser(newUser);
-        Log.v("MyTweet", "New User: " + firstNameStr + " " + lastNameStr);
-        startActivity (new Intent(this, LogIn.class));
+        if(app.newUser(newUser)) {
+            Log.v("MyTweet", "New User: " + firstNameStr + " " + lastNameStr);
+            startActivity (new Intent(this, LogIn.class));
+        } else {
+            Toast toast = Toast.makeText(this, "This email is already registered!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override

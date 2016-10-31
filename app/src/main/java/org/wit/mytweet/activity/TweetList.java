@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.wit.mytweet.R;
 import org.wit.mytweet.main.MyTweetApp;
@@ -108,6 +109,23 @@ public class TweetList extends AppCompatActivity implements AdapterView.OnItemCl
         tweet.setTweeter(app.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
         startActivity(new Intent(this, NewTweet.class));
+        return true;
+
+      case R.id.action_mytweets:
+        Toast toast = Toast.makeText(this, "mytweets", Toast.LENGTH_SHORT);
+        toast.show();
+        return true;
+
+      case R.id.action_settings:
+        Toast toast1 = Toast.makeText(this, "settings", Toast.LENGTH_SHORT);
+        toast1.show();
+        return true;
+
+      case R.id.action_logout:
+        app.logout();
+        startActivity(new Intent(this, Welcome.class));
+        Toast logoutToast = Toast.makeText(this, "Successfully logged out :)", Toast.LENGTH_LONG);
+        logoutToast.show();
         return true;
 
       default: return super.onOptionsItemSelected(item);

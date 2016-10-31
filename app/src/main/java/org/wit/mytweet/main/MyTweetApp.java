@@ -85,6 +85,13 @@ public class MyTweetApp extends Application {
   }
 
   /**
+   * Logs out the current user
+   */
+  public static void logout() {
+    currentUser = null;
+  }
+
+  /**
    * If found, returns a User with the corresponding UUID
    *
    * @param id UUID to be searched in db
@@ -143,5 +150,8 @@ public class MyTweetApp extends Application {
     return tempTweet;
   }
 
+  /**
+   * Deletes the temporary tweet object
+   */
   public static void deleteTempTweet() { tempTweet = null; }
 }

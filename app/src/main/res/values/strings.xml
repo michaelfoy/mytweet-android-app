@@ -13,4 +13,6 @@
     <string name="tweetHint">What\'s on your mind?</string>
     <string name="newTweet">New Tweet</string>
     <string name="settings">Settings</string>
+    <string name="myTweets">MyTweets</string>
+    <string name="logout">Logout</string>
 </resources>

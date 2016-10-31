@@ -1,12 +1,14 @@
 package org.wit.mytweet.activity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +18,11 @@ import org.wit.mytweet.model.Tweet;
 
 import org.wit.mytweet.main.MyTweetApp;
 import org.wit.mytweet.R;
+import static org.wit.android.helpers.IntentHelper.navigateUp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @file NewTweet.java
@@ -59,6 +61,8 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     date = (TextView) findViewById(R.id.date);
     app = (MyTweetApp) getApplication();
 
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     // Retrieves the currently loaded tweet
     tweet = app.getTempTweet();
 
@@ -92,6 +96,62 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
         tweetText.setEnabled(false);
         tweetButton.setEnabled(false);
       }
+    }
+  }
+
+  /**
+   * Returns true if menu can be displayed
+   *
+   * @param menu Menu object to be displayed
+   * @return True if menu can be displayed
+   */
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu)
+  {
+    MenuInflater menuInflater = getMenuInflater();
+    menuInflater.inflate(R.menu.mytweet_menu, menu);
+    return true;
+  }
+
+  /**
+   * Returns true if selected menu item is implemented
+   *
+   * @param item The selected menu item
+   * @return True if item implemented
+   */
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    switch (item.getItemId())
+    {
+      case android.R.id.home:  navigateUp(this);
+        return true;
+
+      case R.id.menuItemNewTweet: Tweet tweet = new Tweet();
+        tweet.setId();
+        tweet.setTweeter(app.getCurrentUser().id.toString());
+        MyTweetApp.setTempTweet(tweet);
+        startActivity(new Intent(this, NewTweet.class));
+        return true;
+
+      case R.id.action_mytweets:
+        Toast toast = Toast.makeText(this, "mytweets", Toast.LENGTH_SHORT);
+        toast.show();
+        return true;
+
+      case R.id.action_settings:
+        Toast toast1 = Toast.makeText(this, "settings", Toast.LENGTH_SHORT);
+        toast1.show();
+        return true;
+
+      case R.id.action_logout:
+        app.logout();
+        startActivity(new Intent(this, Welcome.class));
+        Toast logoutToast = Toast.makeText(this, "Successfully logged out :)", Toast.LENGTH_LONG);
+        logoutToast.show();
+        return true;
+
+      default: return super.onOptionsItemSelected(item);
     }
   }
 

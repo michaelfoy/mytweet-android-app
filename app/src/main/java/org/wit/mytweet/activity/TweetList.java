@@ -1,7 +1,6 @@
 package org.wit.mytweet.activity;
 
 import static org.wit.android.helpers.IntentHelper.startActivityWithData;
-import static org.wit.android.helpers.IntentHelper.startActivityWithDataForResult;
 
 import android.content.Context;
 import android.content.Intent;
@@ -135,7 +134,6 @@ public class TweetList extends AppCompatActivity implements AdapterView.OnItemCl
 
 class TweetAdapter extends ArrayAdapter<Tweet> {
   private Context context;
-
   public TweetAdapter(Context context, List<Tweet> tweets) {
     super(context, 0, tweets);
     this.context = context;

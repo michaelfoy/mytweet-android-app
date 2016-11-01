@@ -19,7 +19,7 @@ import static org.wit.android.helpers.IntentHelper.navigateUp;
 import java.util.UUID;
 
 /**
- * @file NewTweet.java
+ * @file NewTweetFragment.java
  * @brief Class to provide functionality to newtweet.xml layout
  * @version 2016.10.17
  * @author michaelfoy
@@ -93,7 +93,7 @@ public class TweetDisplay extends AppCompatActivity {
         tweet.setId();
         tweet.setTweeter(app.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
-        startActivity(new Intent(this, NewTweet.class));
+        startActivity(new Intent(this, NewTweetFragment.class));
         return true;
 
       case R.id.action_mytweets:

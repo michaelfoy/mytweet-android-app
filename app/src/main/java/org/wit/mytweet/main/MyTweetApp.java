@@ -23,6 +23,7 @@ public class MyTweetApp extends Application {
   private static List<Tweet> tweets = new ArrayList<Tweet>();
   private static User currentUser;
   public static DbHelper dbHelper = null;
+  protected static MyTweetApp app;
 
   // Temporary tweet object, used when creating a new tweet
   private static Tweet tempTweet;
@@ -32,9 +33,14 @@ public class MyTweetApp extends Application {
    */
   @Override
   public void onCreate() {
+    app = this;
       super.onCreate();
       dbHelper = new DbHelper(getApplicationContext());
       Log.v("MyTweet", "MyTweet App Started");
+  }
+
+  public static MyTweetApp getApp(){
+    return app;
   }
 
   /**

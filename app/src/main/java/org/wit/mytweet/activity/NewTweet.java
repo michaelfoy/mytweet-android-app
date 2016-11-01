@@ -14,11 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.wit.android.helpers.ContactHelper;
 import org.wit.mytweet.model.Tweet;
 
 import org.wit.mytweet.main.MyTweetApp;
 import org.wit.mytweet.R;
 import static org.wit.android.helpers.IntentHelper.navigateUp;
+import static org.wit.android.helpers.IntentHelper.selectContact;
+import static org.wit.android.helpers.ContactHelper.sendEmail;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +46,8 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
   private MyTweetApp app;
   private int counter;
   private int tweetLength;
+  private static final int REQUEST_CONTACT = 1;
+  private String emailAddress;
 
   /**
    * Activates the layout and instantiates it's widgets
@@ -64,7 +70,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     // Retrieves the currently loaded tweet
-    tweet = app.getTempTweet();
+    tweet = MyTweetApp.getTempTweet();
 
     Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
 
@@ -73,6 +79,8 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
 
     tweetText.addTextChangedListener(this);
     tweetButton.setOnClickListener(this);
+    contactButton.setOnClickListener(this);
+    emailButton.setOnClickListener(this);
 
     // Checks if the tweet has already been persisted
     checkForTweet(tweet);
@@ -86,7 +94,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
    * @param checkTweet The currently displayed tweet
      */
   private void checkForTweet(Tweet checkTweet) {
-    List<Tweet> allTweets = app.dbHelper.selectAllTweets();
+    List<Tweet> allTweets = MyTweetApp.dbHelper.selectAllTweets();
     for (Tweet tweet : allTweets) {
       if (checkTweet.getContent().equals(tweet.getContent())) {
         date.setText(tweet.getDate());
@@ -129,7 +137,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
 
       case R.id.menuItemNewTweet: Tweet tweet = new Tweet();
         tweet.setId();
-        tweet.setTweeter(app.getCurrentUser().id.toString());
+        tweet.setTweeter(MyTweetApp.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
         startActivity(new Intent(this, NewTweet.class));
         return true;
@@ -145,7 +153,7 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
         return true;
 
       case R.id.action_logout:
-        app.logout();
+        MyTweetApp.logout();
         startActivity(new Intent(this, Welcome.class));
         Toast logoutToast = Toast.makeText(this, "Successfully logged out :)", Toast.LENGTH_LONG);
         logoutToast.show();
@@ -210,13 +218,30 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
           toast.show();
         }
         break;
-        
+      case R.id.contactButton:
+        selectContact(this, REQUEST_CONTACT);
+        break;
+      case R.id.emailButton :
+        sendEmail(this, emailAddress, "New MyTweet from: " + tweet.getTweeterName(), tweet.getContent());
+        break;
     }
   }
 
   @Override
   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data)
+  {
+    switch (requestCode)
+    {
+      case REQUEST_CONTACT:
+        emailAddress = ContactHelper.getEmail(this, data);
+        contactButton.setText("Send to : " + emailAddress);
+        break;
+    }
   }
 
   /**
@@ -235,12 +260,12 @@ public class NewTweet extends AppCompatActivity implements TextWatcher, View.OnC
     String dateStr = date.getText().toString();
     tweet.setContent(content);
     tweet.setDate(dateStr);
-    app.dbHelper.addTweet(tweet);
-    app.deleteTempTweet();
+    MyTweetApp.dbHelper.addTweet(tweet);
+    MyTweetApp.deleteTempTweet();
 
     Toast toast = Toast.makeText(this, "Tweet posted", Toast.LENGTH_SHORT);
     toast.show();
-    Log.v("MyTweet", "Tweet posted by " + app.getCurrentUser().getFirstName() + " " + app.getCurrentUser().getLastName());
+    Log.v("MyTweet", "Tweet posted by " + MyTweetApp.getCurrentUser().getFirstName() + " " + MyTweetApp.getCurrentUser().getLastName());
     startActivity(new Intent(this, TweetList.class));
   }
 }

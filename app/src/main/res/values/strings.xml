@@ -5,11 +5,12 @@
     <string name="logIn">Log In</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
-    <string name="email">Email</string>
+    <string name="email">Send Email</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
-    <string name="contacts">Contacts</string>
+    <string name="contacts">Search Contacts</string>
     <string name="tweet">Tweet</string>
+    <string name="myTweetFeed">MyTweet Feed</string>
     <string name="tweetHint">What\'s on your mind?</string>
     <string name="newTweet">New Tweet</string>
     <string name="settings">Settings</string>

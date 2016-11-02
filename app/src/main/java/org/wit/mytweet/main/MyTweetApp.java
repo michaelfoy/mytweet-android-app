@@ -34,9 +34,9 @@ public class MyTweetApp extends Application {
   @Override
   public void onCreate() {
     app = this;
-      super.onCreate();
-      dbHelper = new DbHelper(getApplicationContext());
-      Log.v("MyTweet", "MyTweet App Started");
+    super.onCreate();
+    dbHelper = new DbHelper(getApplicationContext());
+    Log.v("MyTweet", "MyTweet App Started");
   }
 
   public static MyTweetApp getApp(){
@@ -60,6 +60,7 @@ public class MyTweetApp extends Application {
       }
     }
     dbHelper.addUser(user);
+    users = null;
     return true;
   }
 
@@ -79,6 +80,7 @@ public class MyTweetApp extends Application {
         return true;
       }
     }
+    users = null;
     return false;
   }
 
@@ -112,6 +114,7 @@ public class MyTweetApp extends Application {
       }
     }
     Log.v("MyTweet", "No user found for id: " + id);
+    users = null;
     return null;
   }
 
@@ -130,7 +133,17 @@ public class MyTweetApp extends Application {
       }
     }
     Log.v("MyTweet", "No tweet found for id: " + id);
+    tweets = null;
     return null;
+  }
+
+  /**
+   * Return a list of all tweets composed by a specific user
+   * @param id Id of specified user
+   * @return List of user's tweets
+   */
+  public List<Tweet> getAllTweetsForUser(String id) {
+    return dbHelper.getAllTweetsForUser(id);
   }
 
   /**

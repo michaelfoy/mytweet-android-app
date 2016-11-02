@@ -106,8 +106,7 @@ public class TweetDisplayFragment extends Fragment {
         return true;
 
       case R.id.action_mytweets:
-        Toast toast = Toast.makeText(getActivity(), "mytweets", Toast.LENGTH_SHORT);
-        toast.show();
+        startActivity(new Intent(getActivity(), UserTweetList.class));
         return true;
 
       case R.id.action_settings:

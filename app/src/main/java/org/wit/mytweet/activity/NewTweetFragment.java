@@ -149,8 +149,7 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
         return true;
 
       case R.id.action_mytweets:
-        Toast toast = Toast.makeText(getActivity(), "mytweets", Toast.LENGTH_SHORT);
-        toast.show();
+        startActivity(new Intent(getActivity(), UserTweetList.class));
         return true;
 
       case R.id.action_settings:

@@ -19,17 +19,16 @@ import android.widget.Toast;
 import org.wit.mytweet.R;
 import org.wit.mytweet.main.MyTweetApp;
 import org.wit.mytweet.model.Tweet;
-import org.wit.android.helpers.IntentHelper;
 
 import java.util.List;
 
 /**
- * @file TweetListFragment.java
+ * @file UserTweetListFragment.java
  * @brief Controller for TweetListFragment activity
  * @author michaelfoy
  * @version 2016.10.18
  */
-public class TweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
+public class UserTweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
   public MyTweetApp app;
 
   /**
@@ -41,10 +40,11 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    getActivity().setTitle(R.string.my_tweet_feed);
+    getActivity().setTitle(R.string.my_tweet_profile);
     app = MyTweetApp.getApp();
-    List<Tweet> tweetList = MyTweetApp.getTweets();
-    TweetAdapter adapter = new TweetAdapter(getActivity(), tweetList);
+    String CurrentUserId = MyTweetApp.getCurrentUser().id.toString();
+    List<Tweet> tweetList = app.getAllTweetsForUser(CurrentUserId);
+    UserTweetAdapter adapter = new UserTweetAdapter(getActivity(), tweetList);
     setListAdapter(adapter);
   }
 
@@ -56,13 +56,9 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
-    Tweet tweet = ((TweetAdapter) getListAdapter()).getItem(position);
-    if (MyTweetApp.getCurrentUser().id.equals(tweet.getTweeter())) {
-      MyTweetApp.setTempTweet(tweet);
-      startActivity(new Intent(getActivity(), NewTweet.class));
-    } else {
-      IntentHelper.startActivityWithData(getActivity(), TweetDisplay.class, "TWEET_ID", tweet.id);
-    }
+    Tweet tweet = ((UserTweetAdapter) getListAdapter()).getItem(position);
+    MyTweetApp.setTempTweet(tweet);
+    startActivity(new Intent(getActivity(), NewTweet.class));
   }
 
   /**
@@ -87,7 +83,7 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
   {
-    inflater.inflate(R.menu.mytweet_menu, menu);
+    inflater.inflate(R.menu.user_profile_menu, menu);
     super.onCreateOptionsMenu(menu,inflater);
   }
 
@@ -109,13 +105,14 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
         startActivity(new Intent(getActivity(), NewTweet.class));
         return true;
 
-      case R.id.action_mytweets:
-        startActivity(new Intent(getActivity(), UserTweetList.class));
-        return true;
-
       case R.id.action_settings:
         Toast toast1 = Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT);
         toast1.show();
+        return true;
+
+      case R.id.action_clear_tweets:
+        Toast toast2 = Toast.makeText(getActivity(), "clearing", Toast.LENGTH_SHORT);
+        toast2.show();
         return true;
 
       case R.id.action_logout:
@@ -130,9 +127,9 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   }
 }
 
-class TweetAdapter extends ArrayAdapter<Tweet> {
+class UserTweetAdapter extends ArrayAdapter<Tweet> {
   private Context context;
-  public TweetAdapter(Context context, List<Tweet> tweets) {
+  public UserTweetAdapter(Context context, List<Tweet> tweets) {
     super(context, 0, tweets);
     this.context = context;
   }
@@ -152,7 +149,7 @@ class TweetAdapter extends ArrayAdapter<Tweet> {
     dateTextView.setText(tweet.getDate());
 
     TextView tweeter = (TextView) convertView.findViewById(R.id.tweetListItemTweeter);
-    tweeter.setText(tweet.getTweeterName());
+    tweeter.setText("");
 
     return convertView;
   }

@@ -167,6 +167,33 @@ public class DbHelper extends SQLiteOpenHelper {
     return tweets;
   }
 
+  public List<Tweet> getAllTweetsForUser(String id){
+    List<Tweet> tweets = new ArrayList<Tweet>();
+    String query = "SELECT * FROM " + "tableTweets WHERE TWEETER='" + id +"'";
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.rawQuery(query, null);
+    if (cursor.moveToFirst()) {
+      int columnIndex = 0;
+      do {
+        Tweet tweet = new Tweet();
+        tweet.id = UUID.fromString(cursor.getString(columnIndex++));
+        tweet.setContent(cursor.getString(columnIndex++));
+        tweet.setDate(cursor.getString(columnIndex++));
+        tweet.setTweeter(cursor.getString(columnIndex++));
+
+        columnIndex = 0;
+
+        tweets.add(tweet);
+      } while (cursor.moveToNext());
+    }
+    for(Tweet tweet : tweets) {
+      Log.v("MyTweet", "DB: " + tweet.id);
+    }
+    cursor.close();
+    return tweets;
+
+  }
+
   /**
    * Upgrades previous version of the data base with new version
    *

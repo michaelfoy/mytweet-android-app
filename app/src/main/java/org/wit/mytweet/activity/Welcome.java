@@ -35,8 +35,6 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     signupButton = (Button) findViewById(R.id.signUp);
     signupButton.setOnClickListener(this);
     loginButton.setOnClickListener(this);
-    app = (MyTweetApp) getApplication();
-    // app.dbHelper.onUpgrade(app.dbHelper.getReadableDatabase(), 1, 1);
   }
 
   /**

@@ -46,7 +46,6 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   private Tweet tweet;
   private TextView date;
   private TextView chars;
-  private MyTweetApp app;
   private int counter;
   private int tweetLength;
   private static final int REQUEST_CONTACT = 1;
@@ -61,10 +60,9 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    app = MyTweetApp.getApp();
     // Retrieves the currently loaded tweet
     tweet = MyTweetApp.getTempTweet();
-    Log.v("MyTweet", tweet.getTweeterName() + " " + tweet.id);
+    Log.v("MyTweet", "Tweet: " + tweet.id + " , From: " + tweet.getTweeterName());
   }
 
   @Override

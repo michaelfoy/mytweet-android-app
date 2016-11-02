@@ -30,9 +30,6 @@ import java.util.List;
  * @version 2016.10.18
  */
 public class TweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
-  private ListView listView;
-  private List<Tweet> tweetList;
-  private TweetAdapter adapter;
   public MyTweetApp app;
 
   /**
@@ -46,8 +43,8 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
     setHasOptionsMenu(true);
     getActivity().setTitle(R.string.app_name);
     app = MyTweetApp.getApp();
-    tweetList = app.getTweets();
-    adapter = new TweetAdapter(getActivity(), tweetList);
+    List<Tweet> tweetList = MyTweetApp.getTweets();
+    TweetAdapter adapter = new TweetAdapter(getActivity(), tweetList);
     setListAdapter(adapter);
   }
 
@@ -60,17 +57,12 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     Tweet tweet = ((TweetAdapter) getListAdapter()).getItem(position);
-    if (app.getCurrentUser().id.equals(tweet.getTweeter())) {
-      app.setTempTweet(tweet);
+    if (MyTweetApp.getCurrentUser().id.equals(tweet.getTweeter())) {
+      MyTweetApp.setTempTweet(tweet);
       startActivity(new Intent(getActivity(), NewTweet.class));
     } else {
-      //startActivityWithData(getActivity(), TweetDisplay.class, "TWEET_ID", tweet.id);
-      /*Intent i = new Intent(getActivity(), TweetDisplayFragment.class);
-      startActivityForResult(i, 0);*/
+      IntentHelper.startActivityWithData(getActivity(), TweetDisplay.class, "TWEET_ID", tweet.id);
     }
-    /*Intent i = new Intent(getActivity(), NewTweet.class);
-    i.putExtra(NewTweetFragment.EXTRA_RESIDENCE_ID, res.id);
-    startActivityForResult(i, 0);*/
   }
 
   /**
@@ -84,29 +76,7 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
    */
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    Tweet tweet = ((TweetAdapter) getListAdapter()).getItem(position);
-    if (app.getCurrentUser().id.equals(tweet.getTweeter())) {
-    app.setTempTweet(tweet);
-    startActivity(new Intent(getActivity(), NewTweet.class));
-    } else {
-    //startActivityWithData(getActivity(), TweetDisplay.class, "TWEET_ID", tweet.id);
-      /*Intent i = new Intent(getActivity(), TweetDisplayFragment.class);
-      startActivityForResult(i, 0);*/
-    }
-    /*Intent i = new Intent(getActivity(), NewTweet.class);
-    i.putExtra(NewTweetFragment.EXTRA_RESIDENCE_ID, res.id);
-    startActivityForResult(i, 0);*/
   }
-
-  /*{
-    Tweet tweet = adapter.getItem(position);
-    if (app.getCurrentUser().id.equals(tweet.getTweeter())) {
-      app.setTempTweet(tweet);
-      startActivity(new Intent(this, NewTweetFragment.class));
-    } else {
-      startActivityWithData(this, TweetDisplay.class, "TWEET_ID", tweet.id);
-    }
-  }*/
 
   /**
    * Displays actionbar menu on page
@@ -134,7 +104,7 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
     {
       case R.id.menuItemNewTweet: Tweet tweet = new Tweet();
         tweet.setId();
-        tweet.setTweeter(app.getCurrentUser().id.toString());
+        tweet.setTweeter(MyTweetApp.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
         startActivity(new Intent(getActivity(), NewTweet.class));
         return true;
@@ -150,7 +120,7 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
         return true;
 
       case R.id.action_logout:
-        app.logout();
+        MyTweetApp.logout();
         startActivity(new Intent(getActivity(), Welcome.class));
         Toast logoutToast = Toast.makeText(getActivity(), "Successfully logged out :)", Toast.LENGTH_LONG);
         logoutToast.show();

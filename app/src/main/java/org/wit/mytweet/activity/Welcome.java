@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.wit.mytweet.R;
 import org.wit.mytweet.main.MyTweetApp;
@@ -19,7 +20,6 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
   private Button loginButton;
   private Button signupButton;
-  private MyTweetApp app;
 
   /**
    * Activates the layout and instantiates it's widgets
@@ -50,6 +50,15 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         break;
       default:
         break;
+    }
+  }
+
+  @Override
+  public void onBackPressed() {
+    if(MyTweetApp.getCurrentUser() == null) {
+      Toast toast = Toast.makeText(this, "Nobody's logged in! :(", Toast.LENGTH_SHORT);
+      toast.show();
+      startActivity(new Intent(this, Welcome.class));
     }
   }
 

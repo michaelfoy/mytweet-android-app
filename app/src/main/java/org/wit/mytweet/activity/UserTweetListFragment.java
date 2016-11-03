@@ -58,7 +58,7 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
   public void onListItemClick(ListView l, View v, int position, long id) {
     Tweet tweet = ((UserTweetAdapter) getListAdapter()).getItem(position);
     MyTweetApp.setTempTweet(tweet);
-    startActivity(new Intent(getActivity(), NewTweet.class));
+    startActivity(new Intent(getActivity(), UserNewTweet.class));
   }
 
   /**
@@ -102,7 +102,7 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
         tweet.setId();
         tweet.setTweeter(MyTweetApp.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);
-        startActivity(new Intent(getActivity(), NewTweet.class));
+        startActivity(new Intent(getActivity(), UserNewTweet.class));
         return true;
 
       case R.id.action_settings:

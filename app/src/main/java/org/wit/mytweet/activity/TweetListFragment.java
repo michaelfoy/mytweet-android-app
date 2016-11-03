@@ -102,7 +102,8 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   {
     switch (item.getItemId())
     {
-      case R.id.menuItemNewTweet: Tweet tweet = new Tweet();
+      case R.id.menuItemNewTweet:
+        Tweet tweet = new Tweet();
         tweet.setId();
         tweet.setTweeter(MyTweetApp.getCurrentUser().id.toString());
         MyTweetApp.setTempTweet(tweet);

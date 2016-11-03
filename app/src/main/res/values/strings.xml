@@ -10,12 +10,12 @@
     <string name="register">Register</string>
     <string name="contacts">Search Contacts</string>
     <string name="tweet">Tweet</string>
-    <string name="my_tweet_feed">MyTweet Public Feed</string>
+    <string name="my_tweet_feed">MyTweet Feed</string>
     <string name="my_tweet_profile">MyTweet Private Profile</string>
     <string name="tweetHint">What\'s on your mind?</string>
     <string name="newTweet">New Tweet</string>
     <string name="settings">Settings</string>
     <string name="myTweets">MyTweets</string>
     <string name="logout">Logout</string>
-    <string name="clearTweets">Clear Tweets</string>
+    <string name="deleteAllTweets">Delete all Tweets</string>
 </resources>

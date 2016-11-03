@@ -54,6 +54,13 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".activity.TweetList"/>
         </activity>
+
+        <activity
+            android:name=".activity.UserNewTweet"
+            android:label="@string/my_tweet_profile" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".activity.UserTweetList"/>
+        </activity>
     </application>
 
 </manifest>

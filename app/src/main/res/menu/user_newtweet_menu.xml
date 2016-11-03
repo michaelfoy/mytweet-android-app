@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       xmlns:app="http://schemas.android.com/apk/res-auto"
-      tools:context=".activity.UserTweetListFragment">
+      tools:context=".activity.UserNewTweetFragment">
 
     <item android:id="@+id/menuItemNewTweet"
           android:icon="@android:drawable/ic_menu_add"
@@ -9,16 +9,16 @@
           app:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_mytweets"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="@string/settings"/>
+        android:title="@string/myTweets"/>
 
     <item
-        android:id="@+id/action_clear_tweets"
+        android:id="@+id/action_settings"
         android:orderInCategory="200"
         app:showAsAction="never"
-        android:title="@string/deleteAllTweets"/>
+        android:title="@string/settings"/>
 
     <item
         android:id="@+id/action_logout"

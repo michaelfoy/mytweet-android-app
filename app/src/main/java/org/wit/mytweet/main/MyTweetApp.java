@@ -156,6 +156,13 @@ public class MyTweetApp extends Application {
   }
 
   /**
+   * Deletes a tweet from the db
+   *
+   * @param id Id of the tweet to be deleted
+   */
+  public void deleteTweet(String id) { dbHelper.deleteTweet(id); }
+
+  /**
    * Sets the temporary tweet object before commiting to db
    */
   public static void setTempTweet(Tweet tweet) {

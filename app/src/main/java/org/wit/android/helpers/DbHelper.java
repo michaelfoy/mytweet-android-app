@@ -160,15 +160,19 @@ public class DbHelper extends SQLiteOpenHelper {
         tweets.add(tweet);
       } while (cursor.moveToNext());
     }
-    for(Tweet tweet : tweets) {
-      Log.v("MyTweet", "DB: " + tweet.id);
-    }
     cursor.close();
     return tweets;
   }
 
+  /**
+   * Returns all the tweets from an individual user
+   *
+   * @param id Id of the individual user
+   * @return List of the user's tweets
+   */
   public List<Tweet> getAllTweetsForUser(String id){
     List<Tweet> tweets = new ArrayList<Tweet>();
+    Log.v("MyTweet", "Getting all tweets for user with id: " + id);
     String query = "SELECT * FROM " + "tableTweets WHERE TWEETER='" + id +"'";
     SQLiteDatabase db = this.getWritableDatabase();
     Cursor cursor = db.rawQuery(query, null);
@@ -186,12 +190,19 @@ public class DbHelper extends SQLiteOpenHelper {
         tweets.add(tweet);
       } while (cursor.moveToNext());
     }
-    for(Tweet tweet : tweets) {
-      Log.v("MyTweet", "DB: " + tweet.id);
-    }
     cursor.close();
     return tweets;
+  }
 
+  /**
+   * Deletes an individual tweet
+   *
+   * @param id Id of the tweet to be deleted
+   */
+  public void deleteTweet(String id) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    Log.v("MyTweet", "Deleting tweet with id: " + id);
+    db.execSQL("DELETE FROM " + TABLE_TWEETS + " WHERE ID= '" + id + "'");
   }
 
   /**

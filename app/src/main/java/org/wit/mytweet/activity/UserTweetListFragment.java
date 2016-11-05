@@ -3,12 +3,14 @@ package org.wit.mytweet.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ListFragment;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -28,8 +30,12 @@ import java.util.List;
  * @author michaelfoy
  * @version 2016.10.18
  */
-public class UserTweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
+public class UserTweetListFragment extends ListFragment implements AdapterView.OnItemClickListener, AbsListView.MultiChoiceModeListener {
   public MyTweetApp app;
+  private ListView listView;
+  private UserTweetAdapter adapter;
+  private String CurrentUserId;
+  private List<Tweet> tweetList;
 
   /**
    * Implements the layout, instantiates all fields
@@ -42,15 +48,18 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
     setHasOptionsMenu(true);
     getActivity().setTitle(R.string.my_tweet_profile);
     app = MyTweetApp.getApp();
-    String CurrentUserId = MyTweetApp.getCurrentUser().id.toString();
-    List<Tweet> tweetList = app.getAllTweetsForUser(CurrentUserId);
-    UserTweetAdapter adapter = new UserTweetAdapter(getActivity(), tweetList);
+    CurrentUserId = MyTweetApp.getCurrentUser().id.toString();
+    tweetList = app.getAllTweetsForUser(CurrentUserId);
+    adapter = new UserTweetAdapter(getActivity(), tweetList);
     setListAdapter(adapter);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
     View v = super.onCreateView(inflater, parent, savedInstanceState);
+    listView = (ListView) v.findViewById(android.R.id.list);
+    listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    listView.setMultiChoiceModeListener(this);
     return v;
   }
 
@@ -125,6 +134,64 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
       default: return super.onOptionsItemSelected(item);
     }
   }
+
+  @Override
+  public boolean onCreateActionMode(ActionMode actionMode, Menu menu)
+  {
+    MenuInflater inflater = actionMode.getMenuInflater();
+    inflater.inflate(R.menu.tweet_list_context, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareActionMode(ActionMode actionMode, Menu menu)
+  {
+    return false;
+  }
+
+  @Override
+  public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem)
+  {
+    switch (menuItem.getItemId())
+    {
+      case R.id.menu_item_delete_tweet:
+        deleteTweet(actionMode);
+        return true;
+      default:
+        return false;
+    }
+
+  }
+
+  private void deleteTweet(ActionMode actionMode)
+  {
+    for (int i = adapter.getCount() - 1; i >= 0; i--)
+    {
+      if (listView.isItemChecked(i))
+      {
+        app.deleteTweet(adapter.getItem(i).id.toString());
+      }
+    }
+    actionMode.finish();
+    updateTweetList();
+  }
+
+  public void updateTweetList() {
+    List<Tweet> newList = app.getAllTweetsForUser(CurrentUserId);
+    tweetList.clear();
+    tweetList.addAll(newList);
+    adapter.notifyDataSetChanged();
+  }
+
+  @Override
+  public void onDestroyActionMode(ActionMode actionMode)
+  {
+  }
+
+  @Override
+  public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked)
+  {
+  }
 }
 
 class UserTweetAdapter extends ArrayAdapter<Tweet> {
@@ -147,9 +214,6 @@ class UserTweetAdapter extends ArrayAdapter<Tweet> {
 
     TextView dateTextView = (TextView) convertView.findViewById(R.id.tweetListItemDate);
     dateTextView.setText(tweet.getDate());
-
-    TextView tweeter = (TextView) convertView.findViewById(R.id.tweetListItemTweeter);
-    tweeter.setText("");
 
     return convertView;
   }

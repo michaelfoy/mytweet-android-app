@@ -115,8 +115,7 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
         return true;
 
       case R.id.action_settings:
-        Toast toast1 = Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT);
-        toast1.show();
+        startActivity(new Intent(getActivity(), Settings.class));
         return true;
 
       case R.id.action_logout:

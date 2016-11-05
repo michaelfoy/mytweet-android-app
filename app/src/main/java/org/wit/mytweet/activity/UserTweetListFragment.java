@@ -26,9 +26,9 @@ import java.util.List;
 
 /**
  * @file UserTweetListFragment.java
- * @brief Controller for TweetListFragment activity
+ * @brief Controller for UserTweetList Fragment
  * @author michaelfoy
- * @version 2016.10.18
+ * @version 2016.11.01
  */
 public class UserTweetListFragment extends ListFragment implements AdapterView.OnItemClickListener, AbsListView.MultiChoiceModeListener {
   public MyTweetApp app;
@@ -115,8 +115,7 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
         return true;
 
       case R.id.action_settings:
-        Toast toast1 = Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT);
-        toast1.show();
+        startActivity(new Intent(getActivity(), Settings.class));
         return true;
 
       case R.id.action_clear_tweets:
@@ -136,6 +135,12 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
     }
   }
 
+  /**
+   * When actionmode enabled by the long press, displays deletion menu
+   * @param actionMode
+   * @param menu
+   * @return
+   */
   @Override
   public boolean onCreateActionMode(ActionMode actionMode, Menu menu)
   {

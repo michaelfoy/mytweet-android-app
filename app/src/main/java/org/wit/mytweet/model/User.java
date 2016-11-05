@@ -2,6 +2,8 @@ package org.wit.mytweet.model;
 
 import android.support.annotation.NonNull;
 
+import org.wit.android.helpers.DbHelper;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -92,5 +94,4 @@ public class User {
    * @param password User's password
    */
   public void setPassword( String password) { this.password = password; }
-
 }

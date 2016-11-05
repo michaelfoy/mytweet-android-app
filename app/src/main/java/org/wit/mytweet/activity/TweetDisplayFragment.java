@@ -22,9 +22,9 @@ import static org.wit.android.helpers.IntentHelper.navigateUp;
 import java.util.UUID;
 
 /**
- * @file NewTweetFragment.java
- * @brief Class to provide functionality to newtweet.xml layout
- * @version 2016.10.17
+ * @file TweetDisplayFragment.java
+ * @brief Controller for TweetDisplay fragment
+ * @version 2016.11.01
  * @author michaelfoy
  */
 public class TweetDisplayFragment extends Fragment {
@@ -110,8 +110,7 @@ public class TweetDisplayFragment extends Fragment {
         return true;
 
       case R.id.action_settings:
-        Toast toast1 = Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT);
-        toast1.show();
+        startActivity(new Intent(getActivity(), Settings.class));
         return true;
 
       case R.id.action_logout:

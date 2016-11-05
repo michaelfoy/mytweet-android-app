@@ -74,7 +74,9 @@ public class MyTweetApp extends Application {
   {
     users = dbHelper.selectAllUsers();
     for (User user : users) {
-      if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
+      String userEmail = user.getEmail();
+      String userPassword = user.getPassword();
+      if(userEmail.equals(email) && userPassword.equals(password)) {
         Log.v("MyTweet", "Logging in as: " + user.getFirstName() + " " + user.getLastName());
         currentUser = user;
         return true;
@@ -180,4 +182,16 @@ public class MyTweetApp extends Application {
    * Deletes the temporary tweet object
    */
   public static void deleteTempTweet() { tempTweet = null; }
+
+  public void updateEmail(String email) {
+    User currentUser = getCurrentUser();
+    currentUser.setEmail(email);
+    dbHelper.updateUserData("EMAIL", email, currentUser.id.toString());
+  }
+
+  public void updatePassword(String password) {
+    User currentUser = getCurrentUser();
+    currentUser.setPassword(password);
+    dbHelper.updateUserData("PASSWORD", password, currentUser.id.toString());
+  }
 }

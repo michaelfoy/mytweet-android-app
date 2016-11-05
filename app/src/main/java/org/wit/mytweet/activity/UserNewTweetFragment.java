@@ -32,10 +32,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * @file UserNewTweetFragment.java
+ * @brief Controller for UserNewTweet fragment
+ * @version 2016.11.01
  * @author michaelfoy
- * @version 2016.10.03
- * @file NewTweetFragment.java
- * @brief Class to provide functionality to newtweet.xml layout
  */
 public class UserNewTweetFragment extends Fragment implements TextWatcher, View.OnClickListener {
 
@@ -153,8 +153,7 @@ public class UserNewTweetFragment extends Fragment implements TextWatcher, View.
         return true;
 
       case R.id.action_settings:
-        Toast toast1 = Toast.makeText(getActivity(), "settings", Toast.LENGTH_SHORT);
-        toast1.show();
+        startActivity(new Intent(getActivity(), Settings.class));
         return true;
 
       case R.id.action_logout:

@@ -205,6 +205,15 @@ public class DbHelper extends SQLiteOpenHelper {
     db.execSQL("DELETE FROM " + TABLE_TWEETS + " WHERE ID= '" + id + "'");
   }
 
+  public void updateUserData(String column, String value, String userId) {
+
+    String query = "ID='" + userId +"'";
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(column, value);
+    db.update("tableUsers", values, query, null );
+  }
+
   /**
    * Upgrades previous version of the data base with new version
    *

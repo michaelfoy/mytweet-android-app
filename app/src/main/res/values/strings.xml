@@ -6,7 +6,6 @@
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="contacts">Search Contacts</string>
     <string name="tweet">Tweet</string>
@@ -19,4 +18,12 @@
     <string name="logout">Logout</string>
     <string name="deleteAllTweets">Delete all Tweets</string>
     <string name="deleteTweets">Delete Tweets</string>
+    <string name="email_summary">You may set your email here</string>
+    <string name="password_summary">You may set your password here</string>
+    <string name="nmr_tweets">Configure Downloads</string>
+    <string name="nmr_tweets_summary">How many Tweets to store locally?</string>
+    <string name="set_refresh_interval">Refresh</string>
+    <string name="set_refresh_interval_summary">Frequency of cloud updates (minutes)</string>
+    <string name="password">Password</string>
+
 </resources>

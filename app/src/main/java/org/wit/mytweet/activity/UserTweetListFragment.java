@@ -120,8 +120,9 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
         return true;
 
       case R.id.action_clear_tweets:
-        Toast toast2 = Toast.makeText(getActivity(), "clearing", Toast.LENGTH_SHORT);
-        toast2.show();
+        deleteAllTweets();
+        Toast deleteToast = Toast.makeText(getActivity(), "All tweets deleted", Toast.LENGTH_SHORT);
+        deleteToast.show();
         return true;
 
       case R.id.action_logout:
@@ -144,12 +145,6 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
   }
 
   @Override
-  public boolean onPrepareActionMode(ActionMode actionMode, Menu menu)
-  {
-    return false;
-  }
-
-  @Override
   public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem)
   {
     switch (menuItem.getItemId())
@@ -160,9 +155,13 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
       default:
         return false;
     }
-
   }
 
+  /**
+   * Deletes all selected tweets
+   *
+   * @param actionMode Provides the alternate context for deletion
+   */
   private void deleteTweet(ActionMode actionMode)
   {
     for (int i = adapter.getCount() - 1; i >= 0; i--)
@@ -176,11 +175,30 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
     updateTweetList();
   }
 
+  /**
+   * Deletes all of a user's tweets
+   */
+  private void deleteAllTweets() {
+    for (int i = adapter.getCount() - 1; i >= 0; i--) {
+      app.deleteTweet(adapter.getItem(i).id.toString());
+    }
+    updateTweetList();
+  }
+
+  /**
+   * Updates the list of tweets following a deletion
+   */
   public void updateTweetList() {
     List<Tweet> newList = app.getAllTweetsForUser(CurrentUserId);
     tweetList.clear();
     tweetList.addAll(newList);
     adapter.notifyDataSetChanged();
+  }
+
+  @Override
+  public boolean onPrepareActionMode(ActionMode actionMode, Menu menu)
+  {
+    return false;
   }
 
   @Override

@@ -34,6 +34,7 @@ import java.util.List;
 /**
  * @file UserNewTweetFragment.java
  * @brief Controller for UserNewTweet fragment
+ *        Displays a logged-in user's tweet, or provides view for a new tweet
  * @version 2016.11.01
  * @author michaelfoy
  */
@@ -52,9 +53,9 @@ public class UserNewTweetFragment extends Fragment implements TextWatcher, View.
   private String emailAddress;
 
   /**
-   * Activates the layout and instantiates it's widgets
+   * Creates the fragment
    *
-   * @param savedInstanceState Saved data pertaining to the activity
+   * @param savedInstanceState Saved data pertaining to the fragment
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,14 @@ public class UserNewTweetFragment extends Fragment implements TextWatcher, View.
     Log.v("MyTweet", "Tweet: " + tweet.id + " , From: " + tweet.getTweeterName());
   }
 
+  /**
+   * Activates the layout and instantiates it's widgets
+   *
+   * @param inflater Inflates the layout view
+   * @param parent Viewgroup parent for this fragment
+   * @param savedInstanceState Saved data pertaining to the fragment
+   * @return View to be displayed
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
     super.onCreateView(inflater, parent, savedInstanceState);
@@ -79,6 +88,11 @@ public class UserNewTweetFragment extends Fragment implements TextWatcher, View.
     return v;
   }
 
+  /**
+   * Instantiates widgets and sets their listeners
+   *
+   * @param v View to be displayed
+   */
   private void addListeners(View v) {
     emailButton = (Button) v.findViewById(R.id.emailButton);
     contactButton = (Button) v.findViewById(R.id.contactButton);
@@ -237,6 +251,13 @@ public class UserNewTweetFragment extends Fragment implements TextWatcher, View.
 
   }
 
+  /**
+   * Passes data back to app, following a request to another
+   *
+   * @param requestCode Identifies where the request has returned from
+   * @param resultCode The result code returned by child activity
+   * @param data Data to be used
+   */
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {

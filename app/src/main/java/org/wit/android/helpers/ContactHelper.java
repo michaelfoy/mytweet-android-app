@@ -8,7 +8,14 @@ import android.provider.ContactsContract;
 import android.content.ContentResolver;
 import android.widget.Toast;
 
+/**
+ * @file ContactHelper.java
+ * @brief Helper class containing methods to interact with Contacts application
+ * @author michaelfoy
+ * @version 2016.11.06
+ */
 public class ContactHelper {
+
   public static String getDisplayName(Context context, Intent data) {
     String contact = "unable to find contact";
     Uri contactUri = data.getData();
@@ -68,12 +75,15 @@ public class ContactHelper {
 
   public static void sendEmail(Context context, String email, String subject, String body) {
     try {
+      if (email == null) {
+        email = "Please enter email address";
+      }
       Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));
       emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
       emailIntent.putExtra(Intent.EXTRA_TEXT, body);
       context.startActivity(Intent.createChooser(emailIntent, "Sending Email"));
     } catch (Exception e) {
-      Toast contactsError = Toast.makeText(context, "Default email app not configured on this device", Toast.LENGTH_LONG);
+      Toast contactsError = Toast.makeText(context, "Error opening email application", Toast.LENGTH_LONG);
       contactsError.show();
     }
   }

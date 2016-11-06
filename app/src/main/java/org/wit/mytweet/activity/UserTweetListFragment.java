@@ -27,6 +27,7 @@ import java.util.List;
 /**
  * @file UserTweetListFragment.java
  * @brief Controller for UserTweetList Fragment
+ *        Displays a list of the logged-in user's tweets
  * @author michaelfoy
  * @version 2016.11.01
  */
@@ -63,6 +64,14 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
     return v;
   }
 
+  /**
+   * Opens individual tweet view
+   *
+   * @param l
+   * @param v
+   * @param position
+   * @param id
+   */
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     Tweet tweet = ((UserTweetAdapter) getListAdapter()).getItem(position);
@@ -149,6 +158,13 @@ public class UserTweetListFragment extends ListFragment implements AdapterView.O
     return true;
   }
 
+  /**
+   * Directs app when context menu item selected
+   *
+   * @param actionMode The relevant actionmode for the item
+   * @param menuItem The selected item
+   * @return
+   */
   @Override
   public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem)
   {

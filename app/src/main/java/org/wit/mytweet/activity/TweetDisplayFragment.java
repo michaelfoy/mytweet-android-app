@@ -32,9 +32,9 @@ public class TweetDisplayFragment extends Fragment {
   private Tweet tweet;
 
   /**
-   * Activates the layout and instantiates it's widgets
+   * Creates the fragment
    *
-   * @param savedInstanceState Saved data pertaining to the activity
+   * @param savedInstanceState Saved data pertaining to the fragment
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,14 @@ public class TweetDisplayFragment extends Fragment {
     Log.v("MyTweet","Display tweet page opened");
   }
 
+  /**
+   * Activates the layout and instantiates it's widgets
+   *
+   * @param inflater Inflates the layout view
+   * @param parent Viewgroup parent for this fragment
+   * @param savedInstanceState Saved data pertaining to the fragment
+   * @return View to be displayed
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
     super.onCreateView(inflater, parent, savedInstanceState);
@@ -56,6 +64,11 @@ public class TweetDisplayFragment extends Fragment {
     return v;
   }
 
+  /**
+   * Initializes the widgets
+   *
+   * @param v The view where widgets are displayed
+   */
   private void initializeWidgets(View v) {
 
     TextView tweeter;

@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 
+/**
+ * @file IntentHelper.java
+ * @brief Helper class containing methods to pass intents to activities
+ * @author michaelfoy
+ * @version 2016.11.06
+ */
 public class IntentHelper {
   public static void startActivity(Activity parent, Class classname) {
     Intent intent = new Intent(parent, classname);

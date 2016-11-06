@@ -217,6 +217,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
   /**
    * Populates db on startup with Simpsons data
+   *
+   * @param db The database to populate
    */
   private void populate(SQLiteDatabase db) {
     String date;

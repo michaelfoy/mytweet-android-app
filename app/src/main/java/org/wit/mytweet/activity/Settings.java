@@ -6,8 +6,14 @@ import android.view.Menu;
 
 import org.wit.mytweet.R;
 
-public class Settings extends AppCompatActivity
-{
+/**
+ * @file Settings.java
+ * @brief Settings activity class, enables Settings Fragment
+ * @author michaelfoy
+ * @version 2016.11.06
+ */
+public class Settings extends AppCompatActivity {
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -19,6 +25,12 @@ public class Settings extends AppCompatActivity
     }
   }
 
+  /**
+   * Inflates the dropdown menu
+   *
+   * @param menu Menu to be displayed
+   * @return True if menu has been successfully created
+   */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.mytweet_menu, menu);

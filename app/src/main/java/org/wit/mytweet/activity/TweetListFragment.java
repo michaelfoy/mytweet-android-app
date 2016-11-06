@@ -24,10 +24,11 @@ import org.wit.android.helpers.IntentHelper;
 import java.util.List;
 
 /**
- * @file TweetListFragment.java
- * @brief Controller for TweetListFragment activity
  * @author michaelfoy
  * @version 2016.10.18
+ * @file TweetListFragment.java
+ * @brief Controller for TweetListFragment activity,
+ * Displays a global list of all tweets
  */
 public class TweetListFragment extends ListFragment implements AdapterView.OnItemClickListener {
   public MyTweetApp app;
@@ -54,9 +55,21 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
     return v;
   }
 
+  /**
+   * Opens individual tweet view
+   * If tweet belongs to logged in user, opened view has email functionality
+   * Else, tweet view is read-only
+   *
+   * @param l
+   * @param v
+   * @param position
+   * @param id
+   */
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     Tweet tweet = ((TweetAdapter) getListAdapter()).getItem(position);
+
+    // Check logged-in user against tweeter
     if (MyTweetApp.getCurrentUser().id.equals(tweet.getTweeter())) {
       MyTweetApp.setTempTweet(tweet);
       startActivity(new Intent(getActivity(), NewTweet.class));
@@ -69,10 +82,10 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
    * Listener for click on Tweet item in list. If selected tweet was posted
    * by the logged-in-user, option to email tweet supplied. Otherwise, tweet is read-only.
    *
-   * @param parent The parent adapter view
-   * @param view The view that was clicked within the adapterView
+   * @param parent   The parent adapter view
+   * @param view     The view that was clicked within the adapterView
    * @param position Position of the view in the adapter
-   * @param id Row id of clicked item
+   * @param id       Row id of clicked item
    */
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -81,14 +94,13 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
   /**
    * Displays actionbar menu on page
    *
-   * @param menu Menu object to be displayed
+   * @param menu     Menu object to be displayed
    * @param inflater The MenuInflater to create the menu
    */
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-  {
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.mytweet_menu, menu);
-    super.onCreateOptionsMenu(menu,inflater);
+    super.onCreateOptionsMenu(menu, inflater);
   }
 
   /**
@@ -98,10 +110,8 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
    * @return True if item implemented
    */
   @Override
-  public boolean onOptionsItemSelected(MenuItem item)
-  {
-    switch (item.getItemId())
-    {
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
       case R.id.menuItemNewTweet:
         Tweet tweet = new Tweet();
         tweet.setId();
@@ -125,13 +135,15 @@ public class TweetListFragment extends ListFragment implements AdapterView.OnIte
         logoutToast.show();
         return true;
 
-      default: return super.onOptionsItemSelected(item);
+      default:
+        return super.onOptionsItemSelected(item);
     }
   }
 }
 
 class TweetAdapter extends ArrayAdapter<Tweet> {
   private Context context;
+
   public TweetAdapter(Context context, List<Tweet> tweets) {
     super(context, 0, tweets);
     this.context = context;

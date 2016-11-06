@@ -14,6 +14,12 @@ import static org.wit.android.helpers.IntentHelper.navigateUp;
 import org.wit.mytweet.R;
 import org.wit.mytweet.main.MyTweetApp;
 
+/**
+ * @file SettingsFragment.java
+ * @brief Provides view and methods for Settings adjustment
+ * @author michaelfoy
+ * @version 2016.11.06
+ */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   private SharedPreferences prefs;
@@ -36,6 +42,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     prefs.registerOnSharedPreferenceChangeListener(this);
   }
 
+  /**
+   * Directs app to action when menu item selected
+   *
+   * @param item The selected item
+   * @return True if action successful
+   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
@@ -64,13 +76,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
   }
 
+  /**
+   * Directs the app upon shred preference update
+   *
+   * @param sharedPreferences Object containing modified data
+   * @param key Key identifying which setting has been modified
+   */
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     String value = sharedPreferences.getString(key, "null");
     if (value.equals("null")) {
       Log.v("MyTweet", "No value entered for setting");
+
+      // Update email address
     } else if (key.equals("email")) {
       app.updateEmail(value);
+
+      // Update password
     } else if (key.equals("password")) {
       app.updatePassword(value);
     } else {

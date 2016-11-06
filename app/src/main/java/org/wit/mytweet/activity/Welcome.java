@@ -53,6 +53,9 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     }
   }
 
+  /**
+   * Ensures that back button disabled when user logged out
+   */
   @Override
   public void onBackPressed() {
     if(MyTweetApp.getCurrentUser() == null) {

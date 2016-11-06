@@ -33,7 +33,8 @@ import java.util.List;
 
 /**
  * @file NewTweetFragment.java
- * @brief Controller for NewTweet fragment
+ * @brief Controller for NewTweet fragment. Displays either a blank new tweet
+ *        or a previously saved tweet with option to email tweet
  * @version 2016.11.01
  * @author michaelfoy
  */
@@ -50,11 +51,12 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   private int tweetLength;
   private static final int REQUEST_CONTACT = 1;
   private String emailAddress;
+  private String emailName;
 
   /**
-   * Activates the layout and instantiates it's widgets
+   * Creates the fragment
    *
-   * @param savedInstanceState Saved data pertaining to the activity
+   * @param savedInstanceState Saved data pertaining to the fragment
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -65,11 +67,18 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
     Log.v("MyTweet", "Tweet: " + tweet.id + " , From: " + tweet.getTweeterName());
   }
 
+  /**
+   * Activates the layout and instantiates it's widgets
+   *
+   * @param inflater Inflates the layout view
+   * @param parent Viewgroup parent for this fragment
+   * @param savedInstanceState Saved data pertaining to the fragment
+   * @return View to be displayed
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
     super.onCreateView(inflater, parent, savedInstanceState);
     View v = inflater.inflate(R.layout.newtweet, parent, false);
-    //NewTweet newTweet = (NewTweet)getActivity();
     NewTweet.actionBar.setDisplayHomeAsUpEnabled(true);
     addListeners(v);
     resetCounter();
@@ -79,6 +88,11 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
     return v;
   }
 
+  /**
+   * Instantiates widgets and sets their listeners
+   *
+   * @param v View to be displayed
+   */
   private void addListeners(View v) {
     emailButton = (Button) v.findViewById(R.id.emailButton);
     contactButton = (Button) v.findViewById(R.id.contactButton);
@@ -208,6 +222,24 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   }
 
   /**
+   * Passes data back to app, following a request to another
+   *
+   * @param requestCode Identifies where the request has returned from
+   * @param resultCode The result code returned by child activity
+   * @param data Data to be used
+   */
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode) {
+      case REQUEST_CONTACT:
+        emailAddress = ContactHelper.getEmail(getActivity(), data);
+        emailName =  ContactHelper.getContact(getActivity(), data);
+        contactButton.setText("Send to : " + emailName);
+        break;
+    }
+  }
+
+  /**
    * Implements functionality for the 'tweet', 'contacts' and 'email' buttons
    *
    * @param view The button which has been clicked
@@ -225,6 +257,7 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
         break;
       case R.id.contactButton:
         selectContact(getActivity(), REQUEST_CONTACT);
+
         break;
       case R.id.emailButton:
         sendEmail(getActivity(), emailAddress, "New MyTweet from: " + tweet.getTweeterName(), tweet.getContent());
@@ -235,16 +268,6 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   @Override
   public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-  }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode) {
-      case REQUEST_CONTACT:
-        emailAddress = ContactHelper.getEmail(getActivity(), data);
-        contactButton.setText("Send to : " + emailAddress);
-        break;
-    }
   }
 
   /**

@@ -183,12 +183,20 @@ public class MyTweetApp extends Application {
    */
   public static void deleteTempTweet() { tempTweet = null; }
 
+  /**
+   * Updates the email address of a user
+   * @param email The new email address to be saved
+   */
   public void updateEmail(String email) {
     User currentUser = getCurrentUser();
     currentUser.setEmail(email);
     dbHelper.updateUserData("EMAIL", email, currentUser.id.toString());
   }
 
+  /**
+   * Updates the password of a user
+   * @param password The new password to be saved
+   */
   public void updatePassword(String password) {
     User currentUser = getCurrentUser();
     currentUser.setPassword(password);

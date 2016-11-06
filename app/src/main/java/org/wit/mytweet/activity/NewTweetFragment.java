@@ -103,7 +103,7 @@ public class NewTweetFragment extends Fragment implements TextWatcher, View.OnCl
   private void checkForTweet(Tweet checkTweet) {
     List<Tweet> allTweets = MyTweetApp.dbHelper.selectAllTweets();
     for (Tweet tweet : allTweets) {
-      if (checkTweet.getContent().equals(tweet.getContent())) {
+      if (checkTweet.id.equals(tweet.id)) {
         date.setText(tweet.getDate());
         tweetText.setText(tweet.getContent());
         chars.setText("");

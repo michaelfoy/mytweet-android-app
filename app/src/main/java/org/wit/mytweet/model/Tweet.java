@@ -43,6 +43,20 @@ public class Tweet {
   }
 
   /**
+   * Constructor of a new tweet for db populate()
+   *
+   * @param content Content text of the tweet
+   * @param date Date the tweet was posted
+   * @param user The user who posted the tweet
+   */
+  public Tweet(String content, String date, User user) {
+    this.content = content;
+    this.date = date;
+    this.tweeter = user;
+    this.id = UUID.randomUUID();
+  }
+
+  /**
    * Getter for the tweet's content text
    *
    * @return Content of the tweet

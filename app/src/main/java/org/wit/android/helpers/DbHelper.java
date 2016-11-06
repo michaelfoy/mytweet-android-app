@@ -69,6 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     db.execSQL(createTweetTable);
     db.execSQL(createUserTable);
+    populate(db);
     Log.d(TAG, "DbHelper.onCreated: " + createTweetTable + "; " + createUserTable);
   }
 
@@ -212,6 +213,82 @@ public class DbHelper extends SQLiteOpenHelper {
     ContentValues values = new ContentValues();
     values.put(column, value);
     db.update("tableUsers", values, query, null );
+  }
+
+  /**
+   * Populates db on startup with Simpsons data
+   */
+  private void populate(SQLiteDatabase db) {
+    String date;
+    User homer = new User("Homer", "Simpson", "homer@simpson.com", "secret");
+    User marge = new User("Marge", "Simpson", "marge@simpson.com", "secret");
+    User bart = new User("Bart", "Simpson", "bart@simpson.com", "secret");
+    User lisa = new User("Lisa", "Simpson", "lisa@simpson.com", "secret");
+
+    date = "Sun. 6 Nov 2016, 11:52";
+    Tweet tweet1 = new Tweet("Marge can we have meatloaf tonight", date, homer);
+    date = "Sun. 6 Nov 2016, 11:53";
+    Tweet tweet2 = new Tweet("Homer, we're in Ireland, they don't have meatloaf", date, marge);
+    date = "Sun. 6 Nov 2016, 11:54";
+    Tweet tweet3 = new Tweet("What is meatloaf?", date, bart);
+    date = "Sun. 6 Nov 2016, 11:55";
+    Tweet tweet4 = new Tweet("You don't want to know", date, lisa);
+    date = "Sun. 6 Nov 2016, 11:56";
+    Tweet tweet5 = new Tweet("Shut up Lisa!", date, bart);
+    date = "Sun. 6 Nov 2016, 11:57";
+    Tweet tweet6 = new Tweet("Bart! I'm afraid your sister's right", date, marge);
+    date = "Sun. 6 Nov 2016, 11:58";
+    Tweet tweet7 = new Tweet("I hear people eat blood in a place called Clonakilty", date, bart);
+    date = "Sun. 6 Nov 2016, 11:59";
+    Tweet tweet8 = new Tweet("Let's go! We can stop in Middleton on the way :)", date, homer);
+    date = "Sun. 6 Nov 2016, 12:00";
+    Tweet tweet9 = new Tweet("???!!", date, marge);
+
+    populateUser(homer,db);
+    populateUser(marge,db);
+    populateUser(bart,db);
+    populateUser(lisa,db);
+
+    populateTweet(tweet1, db);
+    populateTweet(tweet2, db);
+    populateTweet(tweet3, db);
+    populateTweet(tweet4, db);
+    populateTweet(tweet5, db);
+    populateTweet(tweet6, db);
+    populateTweet(tweet7, db);
+    populateTweet(tweet8, db);
+    populateTweet(tweet9, db);
+  }
+
+  /**
+   * Populates a default user to the database
+   *
+   * @param user Reference to the User object to be added
+   */
+  public void populateUser(User user, SQLiteDatabase db) {
+    ContentValues values = new ContentValues();
+    values.put(PRIMARY_KEY, user.id.toString());
+    values.put(FIRSTNAME, user.getFirstName());
+    values.put(LASTNAME, user.getLastName());
+    values.put(EMAIL, user.getEmail());
+    values.put(PASSWORD, user.getPassword());
+    // Insert record
+    db.insert(TABLE_USERS, null, values);;
+  }
+
+  /**
+   * Populates a default tweet to the database
+   *
+   * @param tweet Reference to Tweet object to be added to database
+   */
+  public void populateTweet(Tweet tweet, SQLiteDatabase db) {
+    ContentValues values = new ContentValues();
+    values.put(PRIMARY_KEY, tweet.id.toString());
+    values.put(CONTENT, tweet.getContent());
+    values.put(DATE, tweet.getDate());
+    values.put(TWEETER, tweet.getTweeter().toString());
+    // Insert record
+    db.insert(TABLE_TWEETS, null, values);
   }
 
   /**
